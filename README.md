@@ -21,6 +21,20 @@ implementation(libs.wisdom.ui)
 
 要求 minSdk 24。Android 12+ 走背景模糊，以下降级为纯色 + 描边。
 
+## 版本矩阵
+
+| 组件 | 版本 | 备注 |
+| --- | --- | --- |
+| Gradle | 8.14.5 | wrapper 已入库 |
+| Android Gradle Plugin | 8.13.2 | 支持的最高 compileSdk 是 36 |
+| Kotlin | 2.4.20 | Compose 编译器插件同版本 |
+| Compose BOM | 2026.06.01 | 见下方约束 |
+| compileSdk / minSdk | 36 / 24 | |
+
+**为什么 Compose BOM 没用到最新**：2026.08 起的 Compose（foundation 1.12+）要求 `compileSdk 37`，
+而 AGP 8.13.2 的上限是 36。等升级到 AGP 9 之后可以把 BOM 升回最新，两处一起改：
+`gradle/libs.versions.toml` 的 `composeBom` 与 `wisdom-ui/build.gradle.kts` 的 `compileSdk`。
+
 ## 命名
 
 公开 API 一律 `WD` 前缀，与 iOS 端保持同名：
