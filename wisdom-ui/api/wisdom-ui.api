@@ -41,18 +41,6 @@ public final class io/github/wlunc/wisdom/foundation/WDDerived {
 	public final fun getTextOnSoft-0d7_KjU ()J
 }
 
-public final class io/github/wlunc/wisdom/foundation/WDGradient {
-	public static final field $stable I
-	public static final field INSTANCE Lio/github/wlunc/wisdom/foundation/WDGradient;
-	public final fun getAbyss ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
-	public final fun getDeep ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
-	public final fun getFillDark ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
-	public final fun getFillLight ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
-	public final fun getMid ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
-	public final fun getSunrise ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
-	public final fun getSurface ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
-}
-
 public final class io/github/wlunc/wisdom/foundation/WDGradientKt {
 	public static final fun brush (Lio/github/wlunc/wisdom/foundation/WDGradientSpec;)Landroidx/compose/ui/graphics/Brush;
 }
@@ -60,15 +48,18 @@ public final class io/github/wlunc/wisdom/foundation/WDGradientKt {
 public final class io/github/wlunc/wisdom/foundation/WDGradientSpec {
 	public static final field $stable I
 	public fun <init> (FLjava/util/List;)V
-	public final fun component1 ()F
-	public final fun component2 ()Ljava/util/List;
-	public final fun copy (FLjava/util/List;)Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
-	public static synthetic fun copy$default (Lio/github/wlunc/wisdom/foundation/WDGradientSpec;FLjava/util/List;ILjava/lang/Object;)Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAngleDegrees ()F
 	public final fun getStops ()Ljava/util/List;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/github/wlunc/wisdom/foundation/WDGradients {
+	public static final field $stable I
+	public fun <init> (Lio/github/wlunc/wisdom/foundation/WDGradientSpec;Lio/github/wlunc/wisdom/foundation/WDGradientSpec;Lio/github/wlunc/wisdom/foundation/WDGradientSpec;Lio/github/wlunc/wisdom/foundation/WDGradientSpec;Lio/github/wlunc/wisdom/foundation/WDGradientSpec;)V
+	public final fun getDestructive ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
+	public final fun getFill ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
+	public final fun getMid ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
+	public final fun getSunrise ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
+	public final fun getSurface ()Lio/github/wlunc/wisdom/foundation/WDGradientSpec;
 }
 
 public final class io/github/wlunc/wisdom/foundation/WDMotion {
@@ -187,11 +178,13 @@ public final class io/github/wlunc/wisdom/foundation/WDTheme {
 	public static final field $stable I
 	public static final field INSTANCE Lio/github/wlunc/wisdom/foundation/WDTheme;
 	public final fun getColors (Landroidx/compose/runtime/Composer;I)Lio/github/wlunc/wisdom/foundation/WDColors;
+	public final fun getGradients (Landroidx/compose/runtime/Composer;I)Lio/github/wlunc/wisdom/foundation/WDGradients;
 }
 
 public final class io/github/wlunc/wisdom/foundation/WDThemeKt {
 	public static final fun WDTheme (ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 	public static final fun getLocalWDColors ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+	public static final fun getLocalWDGradients ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 	public static final fun toTextStyle (Lio/github/wlunc/wisdom/foundation/WDTextStyle;)Landroidx/compose/ui/text/TextStyle;
 }
 

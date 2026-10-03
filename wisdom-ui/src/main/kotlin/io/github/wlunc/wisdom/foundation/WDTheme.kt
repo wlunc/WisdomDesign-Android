@@ -15,10 +15,17 @@ import androidx.compose.ui.text.TextStyle
 public val LocalWDColors: ProvidableCompositionLocal<WDColors> =
     staticCompositionLocalOf { wdLightColors }
 
+/** 当前渐变。Compose 不做浅深自动解析，所以和颜色一样由主题提供。 */
+public val LocalWDGradients: ProvidableCompositionLocal<WDGradients> =
+    staticCompositionLocalOf { wdLightGradients }
+
 /** 设计令牌入口。对标 MaterialTheme，但只承载 Wisdom 自己的令牌。 */
 public object WDTheme {
     public val colors: WDColors
         @Composable @ReadOnlyComposable get() = LocalWDColors.current
+
+    public val gradients: WDGradients
+        @Composable @ReadOnlyComposable get() = LocalWDGradients.current
 }
 
 /**
@@ -31,7 +38,11 @@ public fun WDTheme(
     content: @Composable () -> Unit,
 ) {
     val colors = if (darkTheme) wdDarkColors else wdLightColors
-    CompositionLocalProvider(LocalWDColors provides colors) {
+    val gradients = if (darkTheme) wdDarkGradients else wdLightGradients
+    CompositionLocalProvider(
+        LocalWDColors provides colors,
+        LocalWDGradients provides gradients,
+    ) {
         MaterialTheme(
             colorScheme = if (darkTheme) colors.toDarkMaterialScheme() else colors.toLightMaterialScheme(),
             content = content,

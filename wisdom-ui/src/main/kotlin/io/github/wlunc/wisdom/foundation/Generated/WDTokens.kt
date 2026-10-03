@@ -145,18 +145,38 @@ public object WDNeutral {
     public val su950: Color = Color(0xFF061017)
 }
 
-/** 渐变。用 stops 描述，避免把角度写死在不同平台各不相同。 */
-public data class WDGradientSpec(val angleDegrees: Float, val stops: List<Pair<Color, Float>>)
+/** 渐变。用 stops 描述，角度沿用 CSS 口径。 */
+@Immutable
+public class WDGradientSpec(
+    public val angleDegrees: Float,
+    public val stops: List<Pair<Color, Float>>,
+)
 
-public object WDGradient {
-    public val surface: WDGradientSpec = WDGradientSpec(135f, listOf(Color(0xFFB0D5DF) to 0.00f, Color(0xFF7EC4CF) to 1.00f))
-    public val fillLight: WDGradientSpec = WDGradientSpec(135f, listOf(Color(0xFF8FCFDD) to 0.00f, Color(0xFF63BAD2) to 1.00f))
-    public val fillDark: WDGradientSpec = WDGradientSpec(135f, listOf(Color(0xFF1677B3) to 0.00f, Color(0xFF2A5CAA) to 1.00f))
-    public val mid: WDGradientSpec = WDGradientSpec(135f, listOf(Color(0xFF4FB0C8) to 0.00f, Color(0xFF1685A9) to 1.00f))
-    public val deep: WDGradientSpec = WDGradientSpec(135f, listOf(Color(0xFF065279) to 0.00f, Color(0xFF1E3B7A) to 1.00f))
-    public val abyss: WDGradientSpec = WDGradientSpec(135f, listOf(Color(0xFF0E3A56) to 0.00f, Color(0xFF0A1D2E) to 1.00f))
-    public val sunrise: WDGradientSpec = WDGradientSpec(135f, listOf(Color(0xFFFFE7C2) to 0.00f, Color(0xFFFFD2C4) to 1.00f))
-}
+/** 当前主题下的全部渐变。Compose 不做浅深自动解析，所以深浅各出一套。 */
+@Immutable
+public class WDGradients(
+    public val surface: WDGradientSpec,
+    public val fill: WDGradientSpec,
+    public val mid: WDGradientSpec,
+    public val destructive: WDGradientSpec,
+    public val sunrise: WDGradientSpec,
+)
+
+internal val wdLightGradients: WDGradients = WDGradients(
+    surface = WDGradientSpec(135f, listOf(Color(0xFFB0D5DF) to 0.00f, Color(0xFF7EC4CF) to 1.00f)),
+    fill = WDGradientSpec(135f, listOf(Color(0xFF8FCFDD) to 0.00f, Color(0xFF63BAD2) to 1.00f)),
+    mid = WDGradientSpec(135f, listOf(Color(0xFF4FB0C8) to 0.00f, Color(0xFF1685A9) to 1.00f)),
+    destructive = WDGradientSpec(135f, listOf(Color(0xFFB8564D) to 0.00f, Color(0xFFA94A42) to 1.00f)),
+    sunrise = WDGradientSpec(135f, listOf(Color(0xFFFFE7C2) to 0.00f, Color(0xFFFFD2C4) to 1.00f)),
+)
+
+internal val wdDarkGradients: WDGradients = WDGradients(
+    surface = WDGradientSpec(135f, listOf(Color(0xFF123449) to 0.00f, Color(0xFF0F4055) to 1.00f)),
+    fill = WDGradientSpec(135f, listOf(Color(0xFF1677B3) to 0.00f, Color(0xFF2A5CAA) to 1.00f)),
+    mid = WDGradientSpec(135f, listOf(Color(0xFF4FB0C8) to 0.00f, Color(0xFF1685A9) to 1.00f)),
+    destructive = WDGradientSpec(135f, listOf(Color(0xFFB8564D) to 0.00f, Color(0xFFA94A42) to 1.00f)),
+    sunrise = WDGradientSpec(135f, listOf(Color(0xFFFFE7C2) to 0.00f, Color(0xFFFFD2C4) to 1.00f)),
+)
 
 /** 间距，基准 4dp。 */
 public object WDSpacing {

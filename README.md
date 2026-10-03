@@ -48,8 +48,10 @@ WDTheme {
 }
 ```
 
-令牌通过 `WDTheme.colors` 取，静态常量在 `WDColor` / `WDSpacing` / `WDRadius` / `WDSize` /
-`WDGradient` / `WDMotion` 里。
+令牌通过 `WDTheme.colors` 与 `WDTheme.gradients` 取；静态常量在 `WDSpacing` / `WDRadius` /
+`WDSize` / `WDPalette` / `WDDerived` / `WDNeutral` 里。
+
+Compose 不做浅深自动解析，所以主题同时提供 `WDColors` 与 `WDGradients` 的浅深两套实例。
 
 ## 令牌来源
 
