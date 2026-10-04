@@ -6,3 +6,7 @@ local.properties
 *.iml
 captures/
 .kotlin/
+
+# JVM 崩溃与录制日志（JVM crash dump / replay）
+hs_err_pid*.log
+replay_pid*.log
