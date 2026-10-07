@@ -94,23 +94,26 @@
   - [16.2 两端差异术语（F 系列节选，本端相关）](#162-两端差异术语f-系列节选本端相关)
   - [16.3 已退役代号解析（**只做历史追溯，不是引用**）](#163-已退役代号解析只做历史追溯不是引用)
 - [17. 关键决策摘要（决策 + 来源）](#17-关键决策摘要决策--来源)
-- [19. 设计文档与设计图查阅指南](#19-设计文档与设计图查阅指南)
-  - [19.1 设计仓结构与只读纪律](#191-设计仓结构与只读纪律)
-  - [19.2 每份设计文档回答什么问题](#192-每份设计文档回答什么问题)
-  - [19.3 按任务查场景到章节](#193-按任务查场景到章节)
-  - [19.4 检索命令复制即用](#194-检索命令复制即用)
-  - [19.5 设计文档与仓内文档的关系](#195-设计文档与仓内文档的关系)
-- [20. 逐组件设计溯源表](#20-逐组件设计溯源表)
-  - [20.1 怎么用三步](#201-怎么用三步)
-  - [20.2 溯源表 37 件](#202-溯源表-37-件)
-  - [20.3 关于实测命中数与锚点](#203-关于实测命中数与锚点)
-- [21. 从设计规格到实现与验收](#21-从设计规格到实现与验收)
-  - [21.1 设计规格 12 节到本端产出](#211-设计规格-12-节到本端产出)
-  - [21.2 画廊核验六步](#212-画廊核验六步)
-  - [21.3 画廊能核什么不能核什么](#213-画廊能核什么不能核什么)
-  - [21.4 截图存档批出口硬要求](#214-截图存档批出口硬要求)
-- [18. 文档变更历史](#18-文档变更历史)
-  - [18.1 本轮（`t86`）自检（可复制）](#181-本轮t86自检可复制)
+- [18. 设计文档与设计图查阅指南](#18-设计文档与设计图查阅指南)
+  - [18.1 设计仓结构与只读纪律](#181-设计仓结构与只读纪律)
+  - [18.2 每份设计文档回答什么问题](#182-每份设计文档回答什么问题)
+  - [18.3 按任务查场景到章节](#183-按任务查场景到章节)
+  - [18.4 检索命令复制即用](#184-检索命令复制即用)
+  - [18.5 设计文档与仓内文档的关系](#185-设计文档与仓内文档的关系)
+- [19. 逐组件设计溯源表](#19-逐组件设计溯源表)
+  - [19.1 怎么用三步](#191-怎么用三步)
+  - [19.2 溯源表 37 件](#192-溯源表-37-件)
+  - [19.3 关于实测命中数与锚点](#193-关于实测命中数与锚点)
+  - [19.4 视觉规格速查](#194-视觉规格速查)
+- [20. 从设计规格到实现与验收](#20-从设计规格到实现与验收)
+  - [20.1 设计规格 12 节到本端产出](#201-设计规格-12-节到本端产出)
+  - [20.2 画廊核验六步](#202-画廊核验六步)
+  - [20.3 画廊能核什么不能核什么](#203-画廊能核什么不能核什么)
+  - [20.4 截图存档批出口硬要求](#204-截图存档批出口硬要求)
+  - [20.5 M2 十一件「实现前自检十问」](#205-m2-十一件实现前自检十问)
+  - [20.6 M3–M6 各件「实现前自检十问」（26 件）](#206-m3m6-各件实现前自检十问26-件)
+- [21. 文档变更历史](#21-文档变更历史)
+  - [21.1 本轮（`t86`）自检（可复制）](#211-本轮t86自检可复制)
 
 **目录自检（可复制；条数差必须 = 0）**：
 
@@ -260,7 +263,7 @@ test "$(grep -cE '^#{2,3} ' docs/DEV-PLAN.md)" -eq "$(grep -cE '^ *- \[[^]]+\]\(
 
 ### 3.1 计数自证
 
-- **组件**：M2 11 + M3 1 + M4 9 + M5 15 + M6 1 = **37**。（**历史留档**：原计划另有"档位 6 A + 19 B + 12 C = 37"——A/B/C 属**工作量口径**，已按用户决策 #1 停用，**不得作为现行判据**；见 §18）
+- **组件**：M2 11 + M3 1 + M4 9 + M5 15 + M6 1 = **37**。（**历史留档**：原计划另有"档位 6 A + 19 B + 12 C = 37"——A/B/C 属**工作量口径**，已按用户决策 #1 停用，**不得作为现行判据**；见 §21）
 - **primitives**：**20 = M2 11 + M3 1 + M4 2 + M5 6**；**20/20 完成于 M5 出口**——**M3 封板批只到 12/20**。
 - **composites**：17 = M4 7 + M5 9 + M6 1。
 
@@ -411,8 +414,8 @@ awk '/^\|/{if(!b){k++;n=0;f=NR} b=1;n++; if(n==2 && $0 !~ /^\|[-: |]*-[-: |]*\|[
 | ② | **标题计数** | `^## ` = **19**、`^### ` = **62**（与改动前一致，**或**在提交说明里写清增减与原因） | 缺节/多节先定位再改文本 |
 | ③ | **图表围栏** | 本文件 Mermaid = **0**、围栏 = **36**（偶）；`docs/ARCHITECTURE.md` Mermaid = **9**、围栏 = **30**（偶） | 补齐围栏；成对性用取值是否为偶数复核 |
 | ④ | **字节上限** | `AGENTS.md` = **59,563 B** ≤ **60,000** | 超出就把细节**下沉到本文件或 `docs/ARCHITECTURE.md`**，手册只留指针 |
-| ⑤ | **外部引用加固** | 软指代 == **0**；`a == b`（当前 **0 = 0**）；跨文档悬空 == **0** | 补文件名限定，或把该句移进 §6 回写台账语境；**不要**用"加白名单"绕过 |
-| ⑥ | **表格结构自检** | awk 判据 == **0**（当前 **40 块 / 0 异常**）；块内 <2 行的变体由 §18.1 的 python 版补查 | 说明有元素被插进了表头与数据行之间（**GFM 会把该表降级**：表头成空表、数据行变段落）⇒ 把说明/图例**移到表外**（表头之前或表尾之后），或补分隔行 |
+| ⑤ | **外部引用加固** | 软指代 == **0**；`a == b`（**数值随时间变化，不在表内固定**；取数命令见本节脚本段）；跨文档悬空 == **0** | 补文件名限定，或把该句移进 §6 回写台账语境；**不要**用"加白名单"绕过。**扩档（R3-01 同类）**：裸 `§N.M` 且 N 非本文件节号 ⇒ 同行必须带目标文件名，否则不合格 |
+| ⑥ | **表格结构自检** | awk 判据 == **0**（当前 **52 块 / 0 异常**）；块内 <2 行的变体由 §18.1 的 python 版补查 | 说明有元素被插进了表头与数据行之间（**GFM 会把该表降级**：表头成空表、数据行变段落）⇒ 把说明/图例**移到表外**（表头之前或表尾之后），或补分隔行 |
 
 **③ 为什么必要 + 真实实例（一律用任务号指代，不复述被查串）**
 
@@ -693,7 +696,7 @@ test -z "$(git status --porcelain -- wisdom-ui gradle build.gradle.kts settings.
 | --- | --- | --- |
 | **组件** | 公开类型名（`WD` 前缀，Kotlin UpperCamel） | `docs/SPEC.md` §2.1 / §2.10 |
 | **批次** | 实现批次 M2–M6（**批 ↔ 批不得并行**） | 本文件 §3.2 |
-| **关键路径件** | `是` / `否` —— 该件是否在**本批串行关键路径**上（`是` ⇒ 其延迟会顺延本批出口与后续批次） | 判定依据 = §3.2 各批「本批出口要点」列（M2 = `关键路径 WDTextField → WDListRow`）+ §9.1 串行链（M2 / M5 / M6 逐件点名）+ [`../AGENTS.md`](../AGENTS.md) §3.2「关键路径（本仓）」列（M4 = `WDBottomSheet` → 弹层族）；**判定式 = 两端可取证点名件的并集（跨端同答案）**：本端三处未点名、但对端点名的件也记 `是`；**未被任一端点名的记 `否`**。原 `档位（A/B/C）` 列已按用户决策 #1 移除——理由见 §18 |
+| **关键路径件** | `是` / `否` —— 该件是否在**本批串行关键路径**上（`是` ⇒ 其延迟会顺延本批出口与后续批次） | 判定依据 = §3.2 各批「本批出口要点」列（M2 = `关键路径 WDTextField → WDListRow`）+ §9.1 串行链（M2 / M5 / M6 逐件点名）+ [`../AGENTS.md`](../AGENTS.md) §3.2「关键路径（本仓）」列（M4 = `WDBottomSheet` → 弹层族）；**判定式 = 两端可取证点名件的并集（跨端同答案）**：本端三处未点名、但对端点名的件也记 `是`；**未被任一端点名的记 `否`**。原 `档位（A/B/C）` 列已按用户决策 #1 移除——理由见 §21 |
 | **落点** | 包内目录（**主文件 = `<组件名>.kt`**） | 根前缀 = `wisdom-ui/src/main/kotlin/io/github/wlunc/wisdom/`；完整形态 `…/components/{primitives,composites}/<组件>/…`（层与件数见 `docs/SPEC.md` §2.1：primitives 20 / composites 17） |
 | **`docs/SPEC.md` 锚点** | 该件的规格位置（清单 / 签名或补全 / C-15 行号；组合件另加 §2.4） | `docs/SPEC.md` §2.1 / §2.2（仅 4 件完整签名）/ §2.3（其余 33 件）/ §2.4 / §2.10 |
 | **Android 形态 / C-15 名** | 受控值参数名（Android 名 → 契约名）；`无` = 该件没有受控值参数 | `docs/SPEC.md` §2.10（C-15 副本） |
@@ -1167,15 +1170,15 @@ git commit -m "feat(WDButton): 初版实现" # 正文两行：变更集 + ABI
 
 ---
 
-## 19. 设计文档与设计图查阅指南
+## 18. 设计文档与设计图查阅指南
 
 > **一句话**：本文件、`../AGENTS.md`、`docs/SPEC.md` 回答"**怎么实现、怎么验收**"；外部设计仓 `../wisdomdesign/` 回答"**长什么样、为什么这样**"。本节是设计仓的**地图**——什么时候去翻、翻哪一份、怎么翻。
 
-### 19.1 设计仓结构与只读纪律
+### 18.1 设计仓结构与只读纪律
 
 | 位置（相对本仓） | 是什么 | 能否改 |
 | --- | --- | --- |
-| `../wisdomdesign/docs/` | 规范文档 **13 份**（清单见 §19.2） | ❌ **只读** |
+| `../wisdomdesign/docs/` | 规范文档 **13 份**（清单见 §4.6.2） | ❌ **只读** |
 | `../wisdomdesign/docs/specs/` | **逐组件详细规格 4 份**（01–37 + 配方 R1–R5） | ❌ 只读 |
 | `../wisdomdesign/design/gallery/` | 可视化画廊 **3 份**（自包含 HTML，浏览器直接打开） | ❌ 只读 |
 | `../wisdomdesign/design/preview/` | 主题预览 **1 份** | ❌ 只读 |
@@ -1185,7 +1188,7 @@ git commit -m "feat(WDButton): 初版实现" # 正文两行：变更集 + ABI
 
 **命名口径提醒**：设计文档写"两端同名 `WDButton` / `WdButton`"，本端实际命名**以 `docs/SPEC.md` §2.10 与 [`../AGENTS.md`](../AGENTS.md) §6 为准**（本仓为 `WD*`）；设计侧写短名（`Button`）时按**设计编号**对照，不按字面大小写推断。
 
-### 19.2 每份设计文档回答什么问题
+### 18.2 每份设计文档回答什么问题
 
 | 文档 | 行数 | 回答什么问题 | 什么时候读 |
 | --- | --- | --- | --- |
@@ -1201,21 +1204,23 @@ git commit -m "feat(WDButton): 初版实现" # 正文两行：变更集 + ABI
 | `docs/10-review-summary.md` | 368 | v1.0 评审总览与开工决策（历史留档） | 追溯"为什么这么定" |
 | `docs/11-a2-dark-canvas.md` | 279 | 深色 canvas 目标色值（提案 + 深色字阶 × 底色对比度表） | 深色主题相关（`WDTheme` 深色表） |
 | `docs/12-b22-glass.md` | 174 | **玻璃唯一真源与可用边界**、三处输入更正、降级口径（含 Android 三路降级） | **所有玻璃组件**（六档 × 文字可用矩阵） |
-| `docs/13-tint.md` | — | 色调（tint）口径 | 语义色 / tint 相关 |
+| `docs/13-tint.md` | 130 | 色调（tint）口径 | 语义色 / tint 相关 |
 | `docs/specs/README.md` | 109 | **规格模板（12 节）**、编写规则、编号索引、配方 R1–R5 | **每接一个组件的第一份** |
 | `docs/specs/01-basic.md` | 1941 | **01–20 详细规格**（每件按 12 节写，缺一节不算完成） | 做 01–20 任一件 |
 | `docs/specs/02-advanced.md` | 1642 | **21–36 详细规格** | 做 21–36 任一件 |
 | `docs/specs/03-patterns.md` | 492 | **37 AssigneePicker** + 配方 R1–R5（配方按"撞边界数据"验收） | 做 37、做场景配方 |
-| `design/gallery/wisdom-components.html` | 159 KB | **01–20 可视化画廊**（自包含） | 看视觉基线 |
-| `design/gallery/wisdom-advanced.html` | 139 KB | **21–36 可视化画廊** | 同上 |
-| `design/gallery/wisdom-patterns.html` | 106 KB | **37 + R1–R5 场景画廊** | 同上 |
-| `design/preview/wisdom-light.html` | 132 KB | 主题预览（浅色） | 主题 / 换肤观感 |
+| `design/gallery/wisdom-components.html` | 约 156 KB | **01–20 可视化画廊**（自包含） | 看视觉基线 |
+| `design/gallery/wisdom-advanced.html` | 约 136 KB | **21–36 可视化画廊** | 同上 |
+| `design/gallery/wisdom-patterns.html` | 约 104 KB | **37 + R1–R5 场景画廊** | 同上 |
+| `design/preview/wisdom-light.html` | 约 129 KB | 主题预览（浅色） | 主题 / 换肤观感 |
 
-### 19.3 按任务查场景到章节
+> **取数口径**：画廊/预览的体积随设计仓重新生成会漂移，表内为**约值**；取数命令 = `wc -c ../wisdomdesign/design/gallery/*.html ../wisdomdesign/design/preview/*.html`（本轮实测：components 155 KB / advanced 135 KB / patterns 103 KB / preview 128 KB，四舍五入后即表内约值）。
+
+### 18.3 按任务查场景到章节
 
 | 我要做的事 | 按顺序读 |
 | --- | --- |
-| **接一个新组件** | `specs/README.md`（12 节模板与编号）→ 本文件 **§20.2** 查它的设计编号 → `specs/0X-*.md` 该件的 12 节 → `01-foundation.md` §3–§7 → 该件涉及的无障碍 / 布局 / 图标 / 文案章节 → **画廊对应编号** |
+| **接一个新组件** | `../wisdomdesign/docs/specs/README.md`（12 节模板与编号）→ 本文件 **§19.2** 查它的设计编号 → `../wisdomdesign/docs/specs/0X-*.md` 该件的 12 节 → `01-foundation.md` §3–§7 → 该件涉及的无障碍 / 布局 / 图标 / 文案章节 → **画廊对应编号** |
 | 改主题 / 换肤 | `05-preview-and-theme.md` §4 → `13-tint.md` → `01-foundation.md` §3 色彩 → `tokens/wisdom.tokens.json` → 本文件 §5 的 `schemes` 三条硬边界 |
 | 玻璃相关 | `12-b22-glass.md` 全篇 → `06-accessibility.md` §5 对比度 → 本文件 §5 的玻璃硬规则（含三路降级） |
 | 写无障碍断言 | `06-accessibility.md` §2–§8 → 该件规格第 **10 节** → 本文件 §14 的对应断言 |
@@ -1224,7 +1229,7 @@ git commit -m "feat(WDButton): 初版实现" # 正文两行：变更集 + ABI
 | 文案 | `07-content.md` §2 / §4 / §6（**库内零文案**，文案由调用方注入） |
 | 查令牌取值 | `tokens/wisdom.tokens.json`（唯一真源）→ `03-platform-mapping.md` 查本端 Compose API |
 
-### 19.4 检索命令复制即用
+### 18.4 检索命令复制即用
 
 ```bash
 cd ../wisdomdesign
@@ -1247,7 +1252,7 @@ awk '/^# 26 · BottomSheet/,/^# 27 · /' docs/specs/02-advanced.md | grep -n '�
 #   37 → docs/specs/03-patterns.md#37--assigneepicker
 ```
 
-### 19.5 设计文档与仓内文档的关系
+### 18.5 设计文档与仓内文档的关系
 
 - **效力分工**：设计稿 = **视觉与规范的依据**；`docs/SPEC.md` = **实现与验收的判据**；[`../AGENTS.md`](../AGENTS.md) = **操作与禁止项**。三者冲突时 ⇒ **库行为以 SPEC（与手册）为准、视觉以设计稿为准**，并把冲突**登记为差异项（F 号）**，不自行取舍。
 - **跨端必须一致项**（改动须走契约流程）：行高可见内容 **44 单值键**、布局盒 **48 = 44 + 上下各 2dp**、**32 槽位**、`schemes` **三条硬边界**、弹簧 canonical **μ = 1.0**、图标 **44 条语义名 + 调用方注入**、**L-B 零文案**。
@@ -1255,71 +1260,163 @@ awk '/^# 26 · BottomSheet/,/^# 27 · /' docs/specs/02-advanced.md | grep -n '�
 
 ---
 
-## 20. 逐组件设计溯源表
+## 19. 逐组件设计溯源表
 
-### 20.1 怎么用三步
+### 19.1 怎么用三步
 
 1. 在本文件 **§12.1** 找到该件（批次 / 关键路径件 / 落点 / `SPEC.md` 锚点 / C-15 名 / 验收代码 / 依赖）；
 2. 在**本表**找到它的**设计编号**，按「设计规格」列的锚点打开该件的 **12 节规格**；
-3. 按「画廊」列的**文件名 + 检索词**在浏览器里打开画廊并搜索，与实现并排比对（核验方法见 §21.2/§21.3）。
+3. 按「画廊」列的**文件名 + 检索词**在浏览器里打开画廊并搜索，与实现并排比对（核验方法见 §20.2/§20.3）。
 
-### 20.2 溯源表 37 件
+### 19.2 溯源表 37 件
 
 | WD 组件 | 设计编号 | 设计规格（锚点） | 画廊文件 · 检索词（实测命中） | 设计优先级 | 本端批次 |
 | --- | --- | --- | --- | --- | --- |
-| `WDButton` | 01 | `specs/01-basic.md#01--button` | `wisdom-components.html` · `Button`（6） | P0 | M2 |
-| `WDIconButton` | 02 | `specs/01-basic.md#02--iconbutton` | `wisdom-components.html` · `IconButton`（3） | P0 | M2 |
-| `WDTextField` | 03 | `specs/01-basic.md#03--textfield` | `wisdom-components.html` · `TextField`（3） | P0 | M2 |
-| `WDSearchField` | 04 | `specs/01-basic.md#04--searchfield` | `wisdom-components.html` · `SearchField`（3） | P0 | M5 |
-| `WDSwitch` | 05 | `specs/01-basic.md#05--switch` | `wisdom-components.html` · `Switch`（3） | P0 | M2 |
-| `WDCheckbox` | 06 | `specs/01-basic.md#06--checkbox` | `wisdom-components.html` · `Checkbox`（3） | P0 | M2 |
-| `WDRadio` | 07 | `specs/01-basic.md#07--radio` | `wisdom-components.html` · `Radio`（3） | P1 | M5 |
-| `WDSlider` | 08 | `specs/01-basic.md#08--slider` | `wisdom-components.html` · `Slider`（3） | P0 | M5 |
-| `WDStepper` | 09 | `specs/01-basic.md#09--stepper` | `wisdom-components.html` · `Stepper`（3） | P1 | M5 |
-| `WDChip` | 10 | `specs/01-basic.md#10--chip` | `wisdom-components.html` · `Chip`（3） | P0 | M5 |
-| `WDBadge` | 11 | `specs/01-basic.md#11--badge` | `wisdom-components.html` · `Badge`（3） | P0 | M2 |
-| `WDAvatar` | 12 | `specs/01-basic.md#12--avatar` | `wisdom-components.html` · `Avatar`（5） | P0 | M2 |
-| `WDAvatarStack` | 13 | `specs/01-basic.md#13--avatarstack` | `wisdom-components.html` · `AvatarStack`（2） | P0 | M5 |
-| `WDDivider` | 14 | `specs/01-basic.md#14--divider` | `wisdom-components.html` · `Divider`（3） | P1 | M2 |
-| `WDProgressBar` | 15 | `specs/01-basic.md#15--progressbar` | `wisdom-components.html` · `ProgressBar`（2） | P0 | M4 |
-| `WDProgressRing` | 16 | `specs/01-basic.md#16--progressring` | `wisdom-components.html` · `ProgressRing`（2） | P0 | M4 |
-| `WDCard` | 17 | `specs/01-basic.md#17--card` | `wisdom-components.html` · `Card`（3） | P0 | M2 |
-| `WDListRow` | 18 | `specs/01-basic.md#18--listrow` | `wisdom-components.html` · `ListRow`（3） | P0 | M2 |
-| `WDListSection` | 19 | `specs/01-basic.md#19--listsection` | `wisdom-components.html` · `ListSection`（3） | P0 | M3 |
-| `WDIcon` | 20 | `specs/01-basic.md#20--icon` | `wisdom-components.html` · `Icon`（6） | P0 | M2 |
-| `WDSegmentedControl` | 21 | `specs/02-advanced.md#21--segmentedcontrol` | `wisdom-advanced.html` · `SegmentedControl`（4） | P0 | M5 |
-| `WDPicker` | 22 | `specs/02-advanced.md#22--picker` | `wisdom-advanced.html` · `Picker`（10） | P1 | M5 |
-| `WDDatePicker` | 23 | `specs/02-advanced.md#23--datepicker` | `wisdom-advanced.html` · `DatePicker`（3） | P1 | M5 |
-| `WDFormRow` | 24 | `specs/02-advanced.md#24--formrow` | `wisdom-advanced.html` · `FormRow`（3） | P1 | M5 |
-| `WDAlert` | 25 | `specs/02-advanced.md#25--alert` | `wisdom-advanced.html` · `Alert`（6） | P0 | M4 |
-| `WDBottomSheet` | 26 | `specs/02-advanced.md#26--bottomsheet` | `wisdom-advanced.html` · `BottomSheet`（3） | P0 | M4 |
-| `WDActionSheet` | 27 | `specs/02-advanced.md#27--actionsheet` | `wisdom-advanced.html` · `ActionSheet`（3） | P1 | M4 |
-| `WDToast` | 28 | `specs/02-advanced.md#28--toast` | `wisdom-advanced.html` · `Toast`（4） | P0 | M4 |
-| `WDBanner` | 29 | `specs/02-advanced.md#29--banner` | `wisdom-advanced.html` · `Banner`（3） | P0 | M4 |
-| `WDEmptyState` | 30 | `specs/02-advanced.md#30--emptystate` | `wisdom-advanced.html` · `EmptyState`（3） | P1 | M4 |
-| `WDSkeleton` | 31 | `specs/02-advanced.md#31--skeleton` | `wisdom-advanced.html` · `Skeleton`（3） | P1 | M4 |
-| `WDPullToRefresh` | 32 | `specs/02-advanced.md#32--pulltorefresh` | `wisdom-advanced.html` · `PullToRefresh`（3） | P1 | M5 |
-| `WDNavigationBar` | 33 | `specs/02-advanced.md#33--navigationbar` | `wisdom-advanced.html` · `NavigationBar`（3） | P0 | M5 |
-| `WDTabBar` | 34 | `specs/02-advanced.md#34--tabbar` | `wisdom-advanced.html` · `TabBar`（4） | P0 | M5 |
-| `WDToolbar` | 35 | `specs/02-advanced.md#35--toolbar` | `wisdom-advanced.html` · `Toolbar`（4） | P1 | M5 |
-| `WDFAB` | 36 | `specs/02-advanced.md#36--fab` | `wisdom-advanced.html` · `FAB`（3） | P1 | M5 |
-| `WDAssigneePicker` | 37 | `specs/03-patterns.md#37--assigneepicker` | `wisdom-patterns.html` · `AssigneePicker`（2） | P1 | M6 |
+| `WDButton` | 01 | `../wisdomdesign/docs/specs/01-basic.md#01--button` | `wisdom-components.html` · `Button`（6） | P0 | M2 |
+| `WDIconButton` | 02 | `../wisdomdesign/docs/specs/01-basic.md#02--iconbutton` | `wisdom-components.html` · `IconButton`（3） | P0 | M2 |
+| `WDTextField` | 03 | `../wisdomdesign/docs/specs/01-basic.md#03--textfield` | `wisdom-components.html` · `TextField`（3） | P0 | M2 |
+| `WDSearchField` | 04 | `../wisdomdesign/docs/specs/01-basic.md#04--searchfield` | `wisdom-components.html` · `SearchField`（3） | P0 | M5 |
+| `WDSwitch` | 05 | `../wisdomdesign/docs/specs/01-basic.md#05--switch` | `wisdom-components.html` · `Switch`（3） | P0 | M2 |
+| `WDCheckbox` | 06 | `../wisdomdesign/docs/specs/01-basic.md#06--checkbox` | `wisdom-components.html` · `Checkbox`（3） | P0 | M2 |
+| `WDRadio` | 07 | `../wisdomdesign/docs/specs/01-basic.md#07--radio` | `wisdom-components.html` · `Radio`（3） | P1 | M5 |
+| `WDSlider` | 08 | `../wisdomdesign/docs/specs/01-basic.md#08--slider` | `wisdom-components.html` · `Slider`（3） | P0 | M5 |
+| `WDStepper` | 09 | `../wisdomdesign/docs/specs/01-basic.md#09--stepper` | `wisdom-components.html` · `Stepper`（3） | P1 | M5 |
+| `WDChip` | 10 | `../wisdomdesign/docs/specs/01-basic.md#10--chip` | `wisdom-components.html` · `Chip`（3） | P0 | M5 |
+| `WDBadge` | 11 | `../wisdomdesign/docs/specs/01-basic.md#11--badge` | `wisdom-components.html` · `Badge`（3） | P0 | M2 |
+| `WDAvatar` | 12 | `../wisdomdesign/docs/specs/01-basic.md#12--avatar` | `wisdom-components.html` · `Avatar`（5） | P0 | M2 |
+| `WDAvatarStack` | 13 | `../wisdomdesign/docs/specs/01-basic.md#13--avatarstack` | `wisdom-components.html` · `AvatarStack`（2） | P0 | M5 |
+| `WDDivider` | 14 | `../wisdomdesign/docs/specs/01-basic.md#14--divider` | `wisdom-components.html` · `Divider`（3） | P1 | M2 |
+| `WDProgressBar` | 15 | `../wisdomdesign/docs/specs/01-basic.md#15--progressbar` | `wisdom-components.html` · `ProgressBar`（2） | P0 | M4 |
+| `WDProgressRing` | 16 | `../wisdomdesign/docs/specs/01-basic.md#16--progressring` | `wisdom-components.html` · `ProgressRing`（2） | P0 | M4 |
+| `WDCard` | 17 | `../wisdomdesign/docs/specs/01-basic.md#17--card` | `wisdom-components.html` · `Card`（3） | P0 | M2 |
+| `WDListRow` | 18 | `../wisdomdesign/docs/specs/01-basic.md#18--listrow` | `wisdom-components.html` · `ListRow`（3） | P0 | M2 |
+| `WDListSection` | 19 | `../wisdomdesign/docs/specs/01-basic.md#19--listsection` | `wisdom-components.html` · `ListSection`（3） | P0 | M3 |
+| `WDIcon` | 20 | `../wisdomdesign/docs/specs/01-basic.md#20--icon` | `wisdom-components.html` · `Icon`（6） | P0 | M2 |
+| `WDSegmentedControl` | 21 | `../wisdomdesign/docs/specs/02-advanced.md#21--segmentedcontrol` | `wisdom-advanced.html` · `SegmentedControl`（4） | P0 | M5 |
+| `WDPicker` | 22 | `../wisdomdesign/docs/specs/02-advanced.md#22--picker` | `wisdom-advanced.html` · `Picker`（10） | P1 | M5 |
+| `WDDatePicker` | 23 | `../wisdomdesign/docs/specs/02-advanced.md#23--datepicker` | `wisdom-advanced.html` · `DatePicker`（3） | P1 | M5 |
+| `WDFormRow` | 24 | `../wisdomdesign/docs/specs/02-advanced.md#24--formrow` | `wisdom-advanced.html` · `FormRow`（3） | P1 | M5 |
+| `WDAlert` | 25 | `../wisdomdesign/docs/specs/02-advanced.md#25--alert` | `wisdom-advanced.html` · `Alert`（6） | P0 | M4 |
+| `WDBottomSheet` | 26 | `../wisdomdesign/docs/specs/02-advanced.md#26--bottomsheet` | `wisdom-advanced.html` · `BottomSheet`（3） | P0 | M4 |
+| `WDActionSheet` | 27 | `../wisdomdesign/docs/specs/02-advanced.md#27--actionsheet` | `wisdom-advanced.html` · `ActionSheet`（3） | P1 | M4 |
+| `WDToast` | 28 | `../wisdomdesign/docs/specs/02-advanced.md#28--toast` | `wisdom-advanced.html` · `Toast`（4） | P0 | M4 |
+| `WDBanner` | 29 | `../wisdomdesign/docs/specs/02-advanced.md#29--banner` | `wisdom-advanced.html` · `Banner`（3） | P0 | M4 |
+| `WDEmptyState` | 30 | `../wisdomdesign/docs/specs/02-advanced.md#30--emptystate` | `wisdom-advanced.html` · `EmptyState`（3） | P1 | M4 |
+| `WDSkeleton` | 31 | `../wisdomdesign/docs/specs/02-advanced.md#31--skeleton` | `wisdom-advanced.html` · `Skeleton`（3） | P1 | M4 |
+| `WDPullToRefresh` | 32 | `../wisdomdesign/docs/specs/02-advanced.md#32--pulltorefresh` | `wisdom-advanced.html` · `PullToRefresh`（3） | P1 | M5 |
+| `WDNavigationBar` | 33 | `../wisdomdesign/docs/specs/02-advanced.md#33--navigationbar` | `wisdom-advanced.html` · `NavigationBar`（3） | P0 | M5 |
+| `WDTabBar` | 34 | `../wisdomdesign/docs/specs/02-advanced.md#34--tabbar` | `wisdom-advanced.html` · `TabBar`（4） | P0 | M5 |
+| `WDToolbar` | 35 | `../wisdomdesign/docs/specs/02-advanced.md#35--toolbar` | `wisdom-advanced.html` · `Toolbar`（4） | P1 | M5 |
+| `WDFAB` | 36 | `../wisdomdesign/docs/specs/02-advanced.md#36--fab` | `wisdom-advanced.html` · `FAB`（3） | P1 | M5 |
+| `WDAssigneePicker` | 37 | `../wisdomdesign/docs/specs/03-patterns.md#37--assigneepicker` | `wisdom-patterns.html` · `AssigneePicker`（2） | P1 | M6 |
 
 **合计 37 行**（与 §12.1 的 37 件一致）；设计编号 01–37 **无缺号**。
 
-### 20.3 关于实测命中数与锚点
+### 19.3 关于实测命中数与锚点
 
 - 画廊是**自包含 HTML（无构建步骤）**，且**没有逐组件锚点** ⇒ 定位方式是**浏览器内搜索组件名**（Ctrl+F）。
 - 「命中数」是**本次实测值**（对画廊文件做 `grep -c`），用途是**确认搜到的是不是同一处**：命中 **0** 说明该组件在这张画廊里没有独立展示（例如 `WDDivider` 多作为其他组件的分隔出现），此时**以规格文件为准**，必要时在批出口报告里登记"画廊未独立展示"。
-- 组件在设计侧的**编号**是稳定标识（`specs/` 的锚点与之一一对应）；**画廊内的滚动位置不稳定**，不要引用"第 N 屏"。
+- 组件在设计侧的**编号**是稳定标识（`../wisdomdesign/docs/specs/` 的锚点与之一一对应）；**画廊内的滚动位置不稳定**，不要引用"第 N 屏"。
 
 ---
 
-## 21. 从设计规格到实现与验收
+### 19.4 视觉规格速查
 
-> 设计规格每件都按 **12 节**写（`specs/README.md` 的模板，缺一节不算完成）。本节把它**逐节映射**到本端要产出什么、对应哪类断言，避免"读完了规格但不知道该写什么"。
+> **用途**：开工前 30 秒建立「这颗组件大概多大、有几种形态、有哪些状态、主要吃哪些令牌」的印象，然后**以设计规格原文为准**读细节。**本表是速查、不是判据**；任何数值冲突以 `../wisdomdesign/docs/specs/0X-*.md` 原文为准。**逐件溯源（设计编号 / 规格锚点 / 画廊检索词）见 §19.2。**
 
-### 21.1 设计规格 12 节到本端产出
+> **截断说明**：单元格若以 `…` 结尾，该格第二行（`<br>` 之后）即**完整值**。**尺寸列一律照抄规格的值单元格**（不截取其中的某个数字），例如 Picker 的「弹出层最小宽 **180**，最大宽 = 屏幕宽 − 32」两项都在。
+
+> **导出的抽取口径（本轮修正）**：尺寸列 = 规格第 3 节表格的「项/档 + 值」**原文**。此前版本曾把值单元格里的**最后一个数字**当作尺寸（导致 Picker 显示 32、BottomSheet 把手显示 8、Toolbar 图标按钮显示 20）——那是抽取缺陷，已修。
+
+**M2 首批 11 件（已到「批前签名冻结」）**
+
+| 编号 | 组件 | 尺寸要点 | 变体 | 状态 | 关键令牌 |
+| --- | --- | --- | --- | --- | --- |
+| 1 | `Button` | sm size.control.sm 32 · md（默认） size.control.md 44 · lg size.control.lg 52 | filled / tonal / glass / outline / plain | 默认 / 按下 / 聚焦 / 禁用 / 加载 | size.icon.sm · space.3 · type.headline · size.control.sm |
+| 2 | `IconButton` | sm 32×32 · md（默认） 44×44 | filled / tonal / glass / outline / plain | 与 Button 一致：默认 / 按下（缩放 0.97）/ 聚焦（3pt 光环）/ 禁用（40%）。 | radius.full · radius.sm · size.icon.lg · space.3 |
+| 3 | `TextField` | 高度 **46**（固定，所有变体一致） · 圆角 radius.md 14 · 水平内距 12 · 前缀与输入区间距 space.3 8 · 后缀与输入区间距 space.3 8 · 标签与容器间距 space.2 4 | inset（默认） / outline / glass | 默认 / 聚焦 / 错误 / 禁用 / 只读 | type.footnote · type.body · radius.md · space.3 |
+| 5 | `Switch` | 标准 51×31 · 紧凑 40×24 | 标准 / 带描述 | 关 / 开 / 按下 / 禁用 | radius.full · type.footnote · space.5 · size.touch-target-min |
+| 6 | `Checkbox` | 标准 size.checkbox 26 · 紧凑 22 | 标准 / 无标签 / 任务行 | 未选 / 已选 / 半选 / 按下 / 禁用 | radius.checkbox · size.checkbox · type.subheadline · type.footnote |
+| 11 | `Badge` | 状态胶囊 高 24，水平内距 10 · 圆点 7×7 · 计数 高 20，最小宽 20 | shared / schedule / pending / success / warning | 徽标本身是展示元素，没有按下态。计数为 0 时整体隐藏，不留空位。 | radius.full · space.2 |
+| 12 | `Avatar` | xs size.avatar.xs 20 · sm 28 · md 32 · lg 40 · xl 56 | 文字 / 图标 / 照片 / 在线 | 在线 / 离线 / 已停用成员 | size.avatar.xs · space.4 · space.5 |
+| 14 | `Divider` | 全宽 容器左边缘 · 内缩 文本区起始（16 + 34 + 12 = 62） | 全宽 / 内缩两种。列表行之间用内缩，卡片内部整体分区用全宽。 | 无状态。颜色固定 `border.hairline`，不随选中或按下变化。 | space.4 |
+| 17 | `Card` | 内边距 space.5 **16（固定，所有变体一致）** · 圆角 radius.xl 24 · 卡间距 space.4 12 · 分组间距 space.7 24 · 最小宽度 不设，由父级决定 | elevated（默认） / glass / outline / sunken / media | 静态 / 可点 · 按下 / 可点 · 禁用 | space.5 · radius.xl · space.4 · space.7 |
+| 18 | `ListRow` | 单行 44 · 双行 60 · 三行 76 | 单行 / 双行 / 三行 / 带选择 / 带勾选 / 禁用 | 默认 / 按下 / 选中 / 禁用 | radius.sm · type.subheadline · type.caption1 · space.4 |
+| 20 | `Icon` | sm 16 · md 20 · lg 24 · xl 28 | 同一语义在两端各有一套：iOS 用 SF Symbols（优先 `.rounded` 变体），Android 用 Mat…<br>完整值：同一语义在两端各有一套：iOS 用 SF Symbols（优先 `.rounded` 变体），Android 用 Material Symbols Rounded。 | 图标本身没有状态，状态由容器承担（按钮的按下/禁用、Tab 的选中）。 | radius.sm · radius.lg · space.3 · motion.duration.fast |
+
+**M3 封板批 1 件（公开 API 冻结）**
+
+| 编号 | 组件 | 尺寸要点 | 变体 | 状态 | 关键令牌 |
+| --- | --- | --- | --- | --- | --- |
+| 19 | `ListSection` | 标题与内容间距 space.3（8） · 内容与页脚间距 space.2（4） · 分组与分组之间 space.7（24） · 页面左右边距 space.5（16） | 标准 / 带动作 / 带页脚 | 分组本身无状态。空分组整个隐藏（连标题一起），不要显示空标题。 | type.overline · type.footnote · space.3 · space.2 |
+
+**M4 反馈与弹层 9 件**
+
+| 编号 | 组件 | 尺寸要点 | 变体 | 状态 | 关键令牌 |
+| --- | --- | --- | --- | --- | --- |
+| 15 | `ProgressBar` | 高度 6 · 圆角 radius.full · 最小宽度 100 · 分段模式的段间距 2 | 确定 / 分段 / 不确定 / 完成 | 进行中 / 完成 / 不确定 / 禁用 | radius.full · space.4 · space.3 · motion.component.progress-easeout |
+| 16 | `ProgressRing` | 直径 60（标准）/ 44（紧凑） · 线宽 6（标准）/ 5（紧凑） · 起点 12 点方向，顺时针 · 环内留白 直径 − 2 × 线宽 | 百分比 / 计数 / 完成 | 增长 / 完成 / 停滞 | type.title2 · space.5 · motion.component.progress-easeout · motion.spring.bouncy |
+| 25 | `Alert` | 卡片宽 270（固定，不随内容变化） · 卡片圆角 radius.xl 24 · 标题区上下内距 16 / 6 · 正文区左右内距 16，下内距 14 · 按钮高 44 · 按钮字号 16（破坏性按钮用 status.danger） | 双按钮 / 单按钮 / 危险 / 带输入 | 出现 / 按钮按下 / 长文案 | radius.xl · type.headline · type.footnote · space.8 |
+| 26 | `BottomSheet` | 圆角 顶部两角 radius.xxl 32 · 把手 36×5，距顶 8 · 头部高 56 · 内容左右内距 space.5（16） · 底部操作区高 72（含安全区） · detents 半屏 0.5 / 大 0.92 | 半屏 / 大 / 可拉伸 / 不可关闭 | 出现 / 拖拽中 / 松手 / 关闭 | radius.xxl · radius.full · type.title3 · space.5 |
+| 27 | `ActionSheet` | 操作行高 44 · 行水平内距 16 · 列表圆角 radius.lg 18 · 取消胶囊高 48 · 与安全区间距 space.3（8） · 操作列表与取消的间距 space.3（8） | 标准 / 含破坏性 / 带图标 | 出现 / 按下 / 破坏性 / 关闭 | radius.lg · space.3 · motion.spring.gentle · space.5 |
+| 28 | `Toast` | 高度 46（单行）；多行时自适应，最多 2 行 · 最小宽度 120 · 最大宽度 屏幕宽 − 2 × space.6（40） · 水平内距 18 · 圆角 radius.full · 图标 16 | 成功 / 信息 / 失败 / 带操作 | 出现 / 停留（纯提示） / 停留（带操作） / 消失 / 手指悬停 | space.5 · space.6 · radius.full · space.4 |
+| 29 | `Banner` | 最小高 44（单行） · 内边距 12 · 圆角 radius.lg 18 · 图标与文案间距 space.3（8） · 文案与操作间距 space.3（8） | 成功 / 信息 / 警示 / 错误 | 常驻 / 可关闭 / 出现 | type.footnote · radius.lg · space.3 · space.5 |
+| 30 | `EmptyState` | 底座 56×56 · 底座与标题间距 space.4（12） · 标题与说明间距 space.2（4） · 说明与操作间距 space.5（16） · 文本最大宽 32 个汉字宽（约 240） | 首次空 / 搜索无结果 / 权限受限 / 加载失败 | 空状态本身无状态。加载失败的变体可以重复触发"重试"，重试期间按钮进入加载态。 | type.headline · type.subheadline · space.4 · space.2 |
+| 31 | `Skeleton` | 文本行 高 11，圆角 6，宽度按真实文本比例（70% / 45%） · 列表行 与 WDListRow 等高（44 / 60 / 76） · 卡片 与真实卡片同尺寸、同圆角、同内边距 · 头像 圆形，直径同真实头像 | 文本 / 列表 / 卡片 | 只有一种状态（加载中）。加载完成后骨架整块替换为真实内容，不做逐块替换。 | motion.component.skeleton-shimmer |
+
+**M5 导航与表单 15 件**
+
+| 编号 | 组件 | 尺寸要点 | 变体 | 状态 | 关键令牌 |
+| --- | --- | --- | --- | --- | --- |
+| 4 | `SearchField` | 高度 **46**（与 WDTextField 一致，同一页面里两者高度必须相同） · 圆角 radius.full · 水平内距 12 · 前导图标与输入区间距 space.3 8 · 容器与取消按钮间距 space.4 12 | 标准 / 带取消 | 空态（未聚焦） / 聚焦 / 有值 / 无结果 / 禁用 | size.icon.md · type.body · radius.full · space.3 |
+| 7 | `Radio` | 标准 26 · 紧凑 22 | 标准 / 带描述 | 未选 / 已选 / 按下 / 禁用 | type.subheadline · type.footnote · space.3 · space.4 |
+| 8 | `Slider` | 轨道高 6 · 手柄 26（白色 + elevation.1 + 1pt border.hairline 描边） · 圆角 radius.full · 最小宽度 120 · 手柄与轨道端点的内缩 手柄半径 13，轨道两端各留 13 | 单值 / 带刻度 / 范围 | 默认 / 拖拽 / 聚焦 / 禁用 | radius.full · space.4 |
+| 9 | `Stepper` | 标准 36 · 紧凑 30 | 标准 / 紧凑 / 带单位 | 默认 / 按下 / 到下限 / 到上限 / 整体禁用 | radius.full · motion.duration.instant · space.4 |
+| 10 | `Chip` | 标准 32 · 紧凑 28 | 展示 / 可选 · 未选 / 可选 · 已选 / 可删除 / 带图标 | 默认 / 按下 / 选中 / 禁用 | radius.full · space.3 · space.4 |
+| 13 | `AvatarStack` | 头像档位 sm 28 或 md 32 · 重叠量 直径的 30%（28 → 8，32 → 9） · 描边 2pt，颜色取所在容器底色（卡片或画布） · 最大显示数 4 | 标准 / 无溢出 | 堆叠本身无状态。成员变动时（新增/离开）用 240ms 淡入淡出，不重排已有位置。 | space.3 · motion.component.list-stagger · motion.spring.gentle |
+| 21 | `SegmentedControl` | 容器高 38（内容 32 + 上下内边距 3） · 单段最小宽 56 · 段水平内距 14 · 字号 13 · 500（选中 600） · 圆角 radius.full | 玻璃 / 实底 | 未选 / 选中 / 按下 / 禁用 | radius.full · motion.spring.snappy · space.5 · motion.duration.fast |
+| 22 | `Picker` | 触发入口高 44 · 选项行高 44 · 弹出层最小宽 180，最大宽 = 屏幕宽 − 32 · 圆角 radius.md 14 · 选项水平内距 14 | 菜单 / 滚轮 / 内联 | 默认 / 未选 / 展开 / 已选 / 禁用 | radius.md · motion.spring.gentle · space.2 · type.overline |
+| 23 | `DatePicker` | 触发入口高 44 · 快捷 Chip 高 32 · 日历单元 44×44 · 圆角 触发入口 radius.md，弹出层 radius.xl | 日期 / 时间 / 日期 + 时间 / 范围 | 未选 / 已选 / 今天 / 选中 / 已过期 | radius.md · radius.xl · motion.duration.fast · motion.spring.gentle |
+| 24 | `FormRow` | 行最小高 44 · 标签与控件间距 space.4（12） · 行与行之间 space.5（16） · 说明 / 错误文字与控件间距 space.2（4） · 标签列宽（左右排布） 96，超出时标签换到上方排布 | 左右 / 上下 / 分组 | 默认 / 聚焦 / 错误 / 禁用 | type.subheadline · type.footnote · space.4 · space.5 |
+| 32 | `PullToRefresh` | 触发阈值 64（下拉超过此距离松手才刷新） · 指示器直径 24 · 环线宽 2 · 指示器与首行间距 space.4（12） · 最大下拉距离 120（超过后阻力显著增加） | 品牌进度 / 极简 | 空闲 / 下拉中 / 刷新中 / 完成 | space.4 · motion.spring.snappy |
+| 33 | `NavigationBar` | 内联（紧凑） 44 · 标准 56 · 大标题 96 | 透明 / 玻璃 / 大标题 | 未滚动 / 已滚动 / 大标题收缩 / 返回按下 | type.headline · space.3 · space.5 · motion.spring.gentle |
+| 34 | `TabBar` | 高度 58 · 距左右边缘 space.5（16） · 距底部安全区 space.3（8） · 图标 22 · 标签 10 · 500（选中 600） · 圆角 radius.full | iOS 悬浮胶囊 / Android 全宽 | 未选 / 选中 / 按下 / 带角标 | space.5 · space.3 · radius.full · motion.spring.gentle |
+| 35 | `Toolbar` | 容器高 48 · 图标按钮 36×36，图标 20 · 按钮间距 space.2（4） · 容器内边距 6 · 圆角 radius.full · 分割线 1pt × 24，色 border.hairline | 顶部 / 底部 / 键盘上方 | 默认 / 按钮按下 / 按钮选中 / 按钮禁用 | space.2 · radius.full · space.4 |
+| 36 | `FAB` | 标准 56×56 · 大 64×64 · 小 40×40 | 圆角方（默认） / 圆形 / 可展开 | 默认 / 按下 / 滚动 / 展开 / 禁用 | radius.fab · motion.spring.gentle · space.5 · space.3 |
+
+**M6 场景组件 1 件**
+
+| 编号 | 组件 | 尺寸要点 | 变体 | 状态 | 关键令牌 |
+| --- | --- | --- | --- | --- | --- |
+| 37 | `AssigneePicker` | 头像 40 · 头像间距 space.4（12） · 选中外环 2pt 描边 + 4 间隙（外径 52） · 名字与头像间距 space.2（4） · 横向内边距 space.5（16） · 最多直接显示 6 个（含"未指派"） | 单选（默认） / 多选 / 带未指派 / 紧凑 | 未选 / 选中 / 按下 / 禁用成员（已离开家庭） / 整体禁用 | type.caption1 · space.4 · space.2 · space.5 |
+
+**对比度速查**（设计规格里**明确给了数值**的件；其余按全局门槛 4.5:1 文字 / 3:1 图形与控件边界）
+
+| 编号 | 组件 | 规格中给出的对比度值 |
+| --- | --- | --- |
+| 1 | `Button` | `6.9:1` / `4.5:1` / `3:1` / `5.4:1` |
+| 2 | `IconButton` | `3:1` |
+| 3 | `TextField` | `3:1` |
+| 11 | `Badge` | `4.5:1` |
+| 15 | `ProgressBar` | `3:1` |
+| 16 | `ProgressRing` | `3:1` / `4.5:1` |
+| 17 | `Card` | `4.5:1` / `3:1` |
+| 19 | `ListSection` | `4.5:1` |
+| 20 | `Icon` | `3:1` |
+| 28 | `Toast` | `4.5:1` |
+| 30 | `EmptyState` | `4.5:1` |
+| 31 | `Skeleton` | `1.5:1` |
+
+**共 12 件**在规格里给了具体对比度值；未列出的件**不等于没有要求**——一律适用全局门槛。
+
+**读法**：① 每个值都**引令牌**，代码里不得硬编码；② 状态表同时规定**动效与触觉**（规格第 5 节第 3、4 列）；③ **触控热区不小于本端冻结值**（`size.touch-target-min-ios` = 44 / `size.touch-target-min-android` = **48 布局盒** = 44 可见内容 + 上下各 2dp；设计规格写「≥44」指的是**可见内容**）；④ 变体/状态写成散文时（无表格），**必须回规格看全**。
+
+
+## 20. 从设计规格到实现与验收
+
+> 设计规格每件都按 **12 节**写（`../wisdomdesign/docs/specs/README.md` 的模板，缺一节不算完成）。本节把它**逐节映射**到本端要产出什么、对应哪类断言，避免"读完了规格但不知道该写什么"。
+
+### 20.1 设计规格 12 节到本端产出
 
 | 设计规格第 N 节 | 它规定什么 | 本端落到哪里 | 对应断言 / 验收 |
 | --- | --- | --- | --- |
@@ -1338,16 +1435,16 @@ awk '/^# 26 · BottomSheet/,/^# 27 · /' docs/specs/02-advanced.md | grep -n '�
 
 **本端要额外过的一道门**：任何**公开签名**变化必须在同一次提交里带 `apiDump` 结果，且 `apiCheck` 必须绿（当前为红，转绿 6 步见 §2.1.1）；公开面**不得出现 m3 类型**（G9）。
 
-### 21.2 画廊核验六步
+### 20.2 画廊核验六步
 
 1. **打开**：浏览器打开对应画廊 HTML（文件自包含，无需构建、无需服务器）；
-2. **定位**：按 §20.2 的检索词搜索该组件（命中数用于确认位置）；
+2. **定位**：按 §19.2 的检索词搜索该组件（命中数用于确认位置）；
 3. **逐项比对**：形态 → 尺寸 → 变体 → 状态，与实现并排；
-4. **六态截图**：默认 / 按下 / 聚焦 / 禁用 / 加载 / 选中，逐一比对并存档（见 §21.4）；
+4. **六态截图**：默认 / 按下 / 聚焦 / 禁用 / 加载 / 选中，逐一比对并存档（见 §20.4）；
 5. **差异分流**：**实现错** ⇒ 改实现；**设计未覆盖 / 与 SPEC 冲突** ⇒ 登记差异项（F 号），**不自行取舍**；
 6. **留痕**：核验结论写进批出口报告（§14 的出口结构）。
 
-### 21.3 画廊能核什么不能核什么
+### 20.3 画廊能核什么不能核什么
 
 | ✅ 能核（视觉基线） | ❌ 不能核（归入 §8 的 V1–V18 未验证清单） |
 | --- | --- |
@@ -1356,13 +1453,517 @@ awk '/^# 26 · BottomSheet/,/^# 27 · /' docs/specs/02-advanced.md | grep -n '�
 | 明暗两套主题的观感 | 朗读文本、焦点顺序、触觉反馈 |
 | 图标用法与底色搭配 | 动态字体放大后的布局（`fontScale` 2.0 档） |
 
-### 21.4 截图存档批出口硬要求
+### 20.4 截图存档批出口硬要求
 
 每个组件在批出口前提供 **六态 × {light, dark}** 截图（M1 起截图基线入库），命名 `<组件>-<态>-<主题>.png`；**与画廊的比对结论**一并写进批出口报告。截图是"视觉是否对齐设计稿"的唯一可复核证据——**没有截图的批不算出口**。
 
 ---
 
-## 18. 文档变更历史
+### 20.5 M2 十一件「实现前自检十问」
+
+> **用途**：开工前 10 分钟过一遍。每问都能用「是 / 否」回答；**答不出或答「否」就先回设计规格，不要开写**。
+> **数据源** = `../wisdomdesign/docs/specs/01-basic.md` 对应件的第 3 / 5 / 7 / 8 / 10 节（含**内容约束** §7）（本清单是**索引**，不替代规格）。件的落点与验收要点见 §12.1，设计锚点与画廊检索词见 §19.2。
+
+**01 `WDButton`（设计 01）**
+
+1. 高度档是否 `sm 32 / md 44 / lg 52`，且分别引 `size.control.{sm,md,lg}`——**没有硬编码数值**？
+2. 水平内距 / 字号 / 图标是否按 `12 / 16 / 20` · `13 / 15 / 16` · `14 / 16 / 20` 落实？
+3. 六个变体 `filled / tonal / glass / outline / plain / destructive` 是否齐；「`filled` **每屏最多一个**主操作」有没有写进类型/组件文档注释？
+4. 按下态是否 = 缩放 **0.97**（`motion.component.press-scale`）+ 亮度 **96%** + `motion.duration.instant`（100ms）+ **轻触觉**？
+5. 聚焦光环是否 **外扩 3pt**、`text.brand` **32%** 透明？
+6. 禁用态是否 **40% 不透明度** + **`aria-disabled` 语义**（不移除元素，保证读屏仍能发现它）？
+7. 加载态是否 **容器宽度不变**、指示器替换标签但 **保留原标签供读屏**，且朗读为「提交，处理中」而非「加载中」？
+8. 文案约束是否交给调用方（库内零文案）：标签 **2–6 汉字 / ≤12 字符**、动词开头、删除场景直接写「删除」？
+9. 无障碍：**标签即朗读文本**（不额外加标签）、角色为 button、图标为装饰？
+10. 触控热区（布局盒）是否 ≥ **48**（`size.touch-target-min`）——**只有图标的场合尤其要查**？
+
+**02 `WDIconButton`（设计 02）**
+
+1. 两档是否为 `sm 32×32 / md 44×44`，且**热区恒 **48 布局盒**（= 44 可见内容 + 上下各 2dp）**（视觉尺寸可以小于热区）？
+2. 图标档是否按 `sm/md 16–20`、`md 24`（`size.icon.*`）取；圆角 `radius.full` 或 `radius.sm` 二选一与本端形态一致？
+3. 五个变体 `filled / tonal / glass / outline / plain` 是否齐？
+4. **是否确认「没有加载态」**——加载场景必须换成 `WDButton` 或骨架，而不是给图标按钮加转圈？
+5. 无障碍标签是否**写动作而不是图标名**（写「搜索」不写「放大镜」）？没有标签时读屏只会读「按钮」。
+6. 破坏性动作是否**没有**放进 IconButton？（没有文字说明的删除按钮是事故源头）
+7. 点击是否**立即执行、不做二次确认**？
+8. 图标是否标记为装饰、角色为 button？
+9. 热区（布局盒）是否 ≥ 48（两档都要满足，`sm` 视觉 32 但热区仍 48）？
+10. 是否已确认该件的**验收截图**要覆盖「聚焦光环 + 禁用 40%」两态？
+
+**03 `WDTextField`（设计 03）**
+
+1. 高度是否 **固定 46**（**所有变体一致**），没有为某个变体改高？
+2. 圆角 `radius.md` **14**、水平内距 **12**、前后缀与输入区间距 `space.3` **8**、标签与辅助文案间距 `space.2` **4**、最小宽度 **190** 是否都对？
+3. 三个变体 `inset`（默认）/ `outline` / `glass` 是否齐？
+4. 五个状态 `默认 / 聚焦 / 错误 / 禁用 / 只读` 是否齐，且聚焦 = 描边换 `text.brand` **1.5pt** + **18% 光环** + **160ms**？
+5. 错误态是否描边换 `status.danger`，且**辅助文案**也用 `status.danger`？
+6. **标签是否必填**（不允许只用占位符当标签）？占位符是否写示例而不是重复标签？
+7. 读屏是否**先读标签再读内容**；错误态是否读成「任务名称，错误，名称已被占用」这种**完整句**？
+8. 后缀按钮（清除 / 显示密码 / 选择单位）是否**各自有标签**？
+9. 与 `WDSearchField` 同页时，两者高度是否一致（同 46）？
+10. 触控与焦点热区（布局盒）是否 ≥ 48（含后缀按钮）？
+
+**05 `WDSwitch`（设计 05）**
+
+1. 标准档是否 **51×31**、圆角 `radius.full`、滑块 **27**（轨道高 − 4）、行程 **20**；紧凑档 **40×24 / 20 / 16**？
+2. 关闭态轨道是否 `border.hairline-strong` + 白色滑块；开启态是否 `gradient.mid` + 白色滑块？
+3. 开启动效是否是**轨道 260ms、滑块 300ms** 两条不同时长，且带**轻触觉**？
+4. 按下态是否**滑块临时放大到 1.06**（100ms）？
+5. 无障碍角色是否 `switch`、状态读「开 / 关」，整句读成「共享给家人，开，开关」？
+6. 带描述时，**描述是否并入朗读内容**（而不是只在视觉上显示）？
+7. 标签是否 4–10 汉字、动词或名词短语、**不用疑问句**？
+8. 描述是否 ≤ **18 汉字**，超出时换**两行说明文字**而**不是截断**？
+9. 触控热区（布局盒）是否 ≥ 48（轨道 31 高，热区（布局盒）必须撑到 48）？
+10. 状态切换是否**不触发**额外的确认或副作用（开关只表达状态，不做动作）？
+
+**06 `WDCheckbox`（设计 06）**
+
+1. 标准档是否 `size.checkbox` **26** / 圆角 **9** / 标签 `type.subheadline` **15**；紧凑 **22 / 7 / 13**？
+2. 未选态是否描边 `border.hairline-strong` **1.5pt** + 底 `fill.field`？
+3. 已选态是否渐变底 + **顶部 1pt 内高光** + `elevation.brand` 投影，且**勾 260ms、填充与投影 220ms**、轻触觉？
+4. **半选态是否实现**（同已选底，勾换成 **12×2.4** 白色横杠）？
+5. 三态朗读是否为「已选中 / 未选中 / **部分选中**」？
+6. 任务行场景是否读成「整理储物间，未完成，复选框」这种**整句**？
+7. 勾选完成时是否**既有触觉又用 `aria-live` 播报「已完成」**？
+8. 标签是否 2–12 汉字、名词短语或短句、**不用问句**（写「共享给家人」不写「是否共享？」）？
+9. iOS 参数名是否为 **`isChecked`**（C-15 的改名结论：`isOn` → `isChecked`）？Android 侧对应受控值名为 **`checked`**？
+10. 热区（布局盒）是否 ≥ 48（方框 26 或 22，热区必须撑满）？
+
+**11 `WDBadge`（设计 11）**
+
+1. 三种形态是否齐：状态胶囊（高 **24** / 水平内距 **10** / 字号 **11 · 600**）、圆点（**7×7**）、计数（高 **20** / 最小宽 **20** / **等宽数字**）？
+2. 圆角是否一律 `radius.full`？
+3. 是否确认**徽标不可点**（宿主可点时点击宿主触发宿主动作，不单独触发徽标）？
+4. **徽标是否不进入无障碍焦点序列**，而是作为宿主朗读内容的一部分（读「提醒，3 条未读」而不是拆成两个元素）？
+5. 状态胶囊文字是否 ≤ **4 汉字**、名词短语（「已逾期」而不是一句话）？
+6. 徽标文字是否**不换行、不截断**（放不下说明这一处置放的信息过多）？
+7. **颜色是否不是唯一信号**——每种状态胶囊的**图标形状必须不同**（对勾 / 三角 / 实心禁止）？
+8. 计数为 **0** 时是否整体隐藏、**不留空位**？
+9. 字号是否为固定值（**不随动态字体放大**——需在规格/断言里明确，属"例外项"）？
+10. 与宿主同屏时，徽标是否不改变宿主的布局尺寸（浮层或预留位，按规格第 6 节）？
+
+**12 `WDAvatar`（设计 12）**
+
+1. 五档直径是否 `xs 20 / sm 28 / md 32（默认）/ lg 40 / xl 56`，首字号 `9 / 11 / 12 / 14 / 18`？
+2. **同一个人的底色是否按成员 ID 固定**（不是按出现顺序分配）——换页面后颜色是否仍然一致？
+3. 在线态是否用 `status.success` 状态点；**离线态是否不加灰点**（避免与在线点混淆）？
+4. 已停用成员是否整体 **50% + 去饱和**？
+5. 朗读是否为成员名（「妈妈」）而**不读**「头像」或首字？
+6. 在线状态是否**并入朗读**（「妈妈，在线」）？
+7. 首字 / 图标是否标记为装饰？
+8. 首字规则是否按规格：中文取名字第一个字符、英文取首字母大写？
+9. 与 `WDAvatarStack` 的档位（32 / 重叠 30% / 描边 2pt / 最多 4）是否分工清晰、没有各自实现一套？
+10. 头像加载失败/无图时是否有确定的兜底（首字），**不留空白**？
+
+**14 `WDDivider`（设计 14）**
+
+1. 两个变体是否齐：全宽（容器左边缘到右边缘）、内缩（**文本区起始 = 16 + 34 + 12 = 62**）？
+2. 颜色是否固定 `border.hairline`、**不随选中/按下变化**？
+3. 是否确认**无状态、不可交互**（不实现按下态、不做 hover）？
+4. **是否不进入无障碍树**（分割语义由 `WDListSection` 标题承担）？
+5. 分割线是否**不带文字**（需要标签的分隔改用 `WDListSection`）？
+6. 列表行之间用内缩、卡片内部整体分区用全宽——用法约定是否写进注释？
+7. 1px/1dp 线宽在两端是否为**物理像素对齐**（避免 2x/3x 下消失或变粗）？
+8. 深色主题下与底色对比是否 ≥ 3:1（图形边界要求）？
+9. 相邻间距是否来自列表/卡片的容器间距（不额外加 margin）？
+10. 是否确认该件在画廊里**没有独立展示**（命中 0），验收以规格与本端截图为准？
+
+**17 `WDCard`（设计 17）**
+
+1. 内边距是否 **固定 16**（`space.5`，**所有变体一致**）、圆角 `radius.xl` **24**、卡间距 `space.4` **12**、分组间距 `space.7` **24**？
+2. 五个变体 `elevated / glass / outline / sunken / media` 是否齐？
+3. 三个状态是否齐：静态、可点·按下（**整卡亮度 96%** + `motion.duration.instant`）、可点·禁用（**整体 40%**）？
+4. **静态卡是否不进入无障碍焦点序列**（内容逐项朗读）；**可点卡是否作为整体朗读、角色 button、朗读文本由卡内标题提供**？
+5. **整卡可点时，卡内是否没有嵌套的可点区域**（这是最容易犯的错）？
+6. 标题是否**一行、≤20 汉字、超出截断**？
+7. 「一张卡表达一件事」是否落实（卡内两个不相关主题就应拆卡）？
+8. 卡内子元素是否会因为内边距固定而错位（媒体变体的图片是否出血到边缘）？
+9. 玻璃变体是否走 §5 的玻璃硬规则（六档 × 文字可用矩阵、配额 ≤1 个模糊面）？
+10. 深色主题下 elevated/sunken 的层级是否仍可辨（`elevation.*` 与边框）？
+
+**18 `WDListRow`（设计 18）**
+
+1. 三档行高是否 **单行 44 / 双行 60 / 三行 76**，且**热区 = 布局盒**（= 可见内容 + 上下各 2dp，由本端 `wdTouchTarget` 机制实现）？
+2. 三个状态是否齐：默认（透明底）、按下（`fill.pressed` + `motion.duration.instant` 100ms）、选中（**左侧 3pt 品牌条 + 浅底** + `motion.duration.fast` 160ms）？
+3. 整行是否作为**一个**元素朗读（「整理储物间，18:00 前，未完成，按钮」）？
+4. 前导图标是否标记装饰、**头像朗读成员名**、**分隔线不进入无障碍树**？
+5. 标题是否 ≤ **20 汉字**、副标题 ≤ **24 汉字**，超出**截断**（不是换行撑高）？
+6. 长按多选是否实现：顶部「已选 n 项」、底部换成「取消 / 删除」、行前导换成勾选框？
+7. 批量删除是否**给撤销**（一次撤销恢复整批），退出多选时是否**清空选择**？
+8. iOS 受控值名是否为 **`isSelected`**（这是 C-15 里明确保留的**例外**，不要改成 `selected`）？Android 侧为 **`selected`**？
+9. 行高公式（44/60/76）是否与 `WDSection`/列表容器一致，没有在容器里再补 padding 导致热区重叠？
+10. 是否覆盖「标题超长 + 无副标题 + 带头像 + 选中」这类**组合态**的快照？
+
+**20 `WDIcon`（设计 20）**
+
+1. 四档是否 `sm 16 / md 20 / lg 24 / xl 28`，用在哪是否按规格（行内 / 表单与列表 / 导航栏·Tab·工具栏 / 强调与空状态）？
+2. 是否**只暴露语义名 + `mirrorsInRTL`，符号由调用方注入**（库内不绑定 SF Symbols / Material Symbols）？
+3. 两端映射是否按规格表（iOS 优先 SF Symbols 的 `.rounded` 变体；Android 用 Material Symbols）？
+4. **图标本身是否不可点**（可点时包进 `WDIconButton`，热区（布局盒）≥ 48）？
+5. 装饰性图标是否**标记为隐藏、不进入无障碍树**？
+6. 作为**唯一视觉信息**的图标（如状态点）是否**另有文字或无障碍标签**？
+7. 图标与背景对比度是否 ≥ **3:1**（已实测的玻璃/浅色底组合要重点查）？
+8. 44 条语义名是否与本端注册表一致（不多不少、命名不漂移）？
+9. RTL 下是否按 `mirrorsInRTL` 正确镜像（方向类图标镜像、非方向类不镜像）？
+10. 线宽与尺寸是否随档位缩放（不是把一套 24 的图形硬缩到 16 导致笔画发虚）？
+
+---
+
+### 20.6 M3–M6 各件「实现前自检十问」（26 件）
+
+> **同 §20.5 的用法**：开工前 10 分钟过一遍，每问都能用「是 / 否」回答；**答不出或答「否」就先回设计规格，不要开写**。
+> **数据源** = `../wisdomdesign/docs/specs/` 对应件的第 3 / 4 / 5 / 8 / 10 节（含**变体** §4）（本清单是索引，不替代规格）；件的落点与验收要点见 §12.1，设计锚点与画廊检索词见 §19.2。
+> **覆盖**：M3 1 件 + M4 9 件 + M5 15 件 + M6 1 件 = **26 件 × 10 问**。
+
+**M3 · 封板批（1 件）**
+
+**19 `WDListSection`**（设计 19）
+
+1. 三个变体是否齐：标准（标题 + 卡片）、带动作（标题右侧动作）、带页脚？
+2. 间距是否按规格：标题与内容 `space.3`（8）、内容与页脚 `space.2`（4）、分组与分组 `space.7`（24）、页面左右边距 `space.5`（16）？
+3. **空分组是否整个隐藏**（连标题一起），而不是显示一个空标题？
+4. 分组标题是否用 `header` 语义（读屏用户可快速跳转到分组）？
+5. 读屏顺序是否为 **标题 → 标题右侧动作 → 组内各行 → 页脚**？
+6. 页脚是否作为分组的**补充说明**朗读（而不是被跳过）？
+7. 分组本身是否**无状态**（不实现按下/选中态）？
+8. 卡片容器是否复用 `WDCard` 的令牌与圆角（不另造一套内边距/圆角）？
+9. 分组之间的间距是否只用 `space.7`（不与卡片自带外边距重复累加）？
+10. 是否覆盖组合态截图：只有标题、带页脚 + 长标题、组内单行 / 多行？
+
+**M4 · 反馈与弹层（9 件）**
+
+**15 `WDProgressBar`**（设计 15）
+
+1. 高度是否 `6`？
+2. 变体是否齐：确定（按百分比填充）、不确定（indeterminate）？
+3. 「进行中」是否填充 `gradient.mid`、数值变化 **240ms 线性**？
+4. 「完成」是否填充换 `status.success`、到达 100% 时 **300ms 过渡 + 一次成功触觉**？
+5. 角色是否为 `progressbar`，并提供 `valuenow` / `valuemin` / `valuemax`？
+6. 朗读是否为「上传进度，45%」这种带语境与百分比的整句？
+7. **不确定态是否不提供 `valuenow`**，朗读「加载中」？
+8. 是否**不可交互**（需要用户操作推进时改用 `WDButton`，而不是让进度条可点）？
+9. 数值更新是否只重绘填充（不因父级重组整树重画）？
+10. `0%` / `100%` / 越界值（<0、>max）的钳制行为是否有断言？
+
+**16 `WDProgressRing`**（设计 16）
+
+1. 直径是否 `60`（标准）/ `44`（紧凑）？
+2. 变体是否齐：百分比（环内显示「60%」）、以及规格列出的其他形态？
+3. 「增长」是否为弧从 0 长到目标值 **3200ms 缓出**、且数字**同步递增**？
+4. 「完成」是否为环色转 `status.success` + 弹一下 + 成功触觉，且**只播一次**？
+5. 整体朗读是否为「本周家务，已完成 3 项，共 5 项，60%」这种**一句读完**的形态？
+6. 环本身是否标记为**装饰**、信息由文字承担？
+7. 旋转的进度弧是否**不触发持续播报**（只在完成时播报一次）？
+8. 默认不可交互；需要点击时**整块（环 + 文字）作为热区**，而不是只让环可点？
+9. 减弱动效下 3200ms 增长是否按 `motion.duration.reduced` 降级（不保留长动画）？
+10. `fontScale 2.0` 下环内文字是否不溢出、不裁切？
+
+**25 `WDAlert`**（设计 25）
+
+1. 卡片宽是否固定 **270**（**不随内容变化**）？
+2. 变体是否齐：双按钮（默认：**取消在左** + 确认）、单按钮、带输入？
+3. 出现动效是否为：遮罩 **160ms** 淡入 + 卡片 **240ms** 从 **0.92** 缩放到 1 + 淡入？
+4. 按钮按下是否用 `fill.pressed`？
+5. 角色是否为 `alertdialog`，且**标题与正文自动朗读**？
+6. 出现时**焦点是否移入卡片并被限制在内**（焦点陷阱）？
+7. 关闭后**焦点是否归还触发元素**？
+8. 破坏性按钮是否用危险色且文案明确（文案由调用方给；库内零文案）？
+9. 长文案时是否仍**固定宽 + 换行不裁切**（不用缩小字号）？
+10. 挂载形态是否为 `.wdAlert(...)` **挂在锚点视图**（而不是"什么都不渲染的 View"）；`onDismissAttempt` **不存在**（F29）？
+
+**26 `WDBottomSheet`**（设计 26）
+
+1. 顶部两角圆角是否 `radius.xxl` **32**？
+2. detent 是否为 `Half = 0.5` / `Large = 0.92`、`max-width = 480`（按冻结值）？
+3. 出现动效是否为：遮罩淡入 **160ms** + 面板从底部滑入 **340ms**（`motion.spring.gentle`）？
+4. 拖拽中是否面板跟随手指、**遮罩透明度同步变化**（实时）？
+5. 把手是否 `36 × 5`、offset `8`；类型名是否为 **`WDBottomSheetDetent{Half, Large}` / `WDBottomSheetDetents{All, Fixed}`**（**不得出现 `WDSheet*`**）？
+6. 焦点是否进入面板并被限制在内；关闭后是否**归还触发元素**？
+7. 是否提供「下滑关闭」的**自定义辅助操作**（不能只依赖手势）？
+8. 状态是否用 `rememberWDBottomSheetState` + `saver(...)`（配置变更/重建后仍保持）？
+9. 是否覆盖「到顶/到底阻尼、快速甩动、拖到一半松手」三种手势边界？
+10. 键盘出现时是否按 V3 的结论避让（面板不被键盘遮挡、内距不变形）？
+
+**27 `WDActionSheet`**（设计 27）
+
+1. 操作行高是否 **44**？
+2. 变体是否齐：标准、含破坏性项、带标题/说明？
+3. 出现是否为从底部滑入 **340ms** `motion.spring.gentle`；按下是否该行 `fill.pressed` + **100ms**？
+4. 角色是否为 `menu`（每项 `menuitem`）？
+5. **破坏性项朗读是否包含后果**（由调用方文案承载）？
+6. 出现时焦点是否进入列表，且**取消按钮可被独立到达**？
+7. 取消按钮是否与操作列表**视觉分离**（避免误触）？
+8. 项数超过一屏时是否可滚动且首项不被遮挡/不被取消键压住？
+9. 是否与 `WDBottomSheet` **复用同一套遮罩与弹簧**（不出现两套动效参数）？
+10. 关闭后焦点是否归还触发元素？
+
+**28 `WDToast`**（设计 28）
+
+1. 高度是否 **46**（单行）；多行时自适应且**最多 2 行**？
+2. 变体是否齐（成功 / 信息 / 失败 / 带操作），图标与色是否按规格？
+3. 出现是否为 **320ms 上移淡入**；时长是否按规格：纯提示 **3 秒**、带操作 **≥5 秒**（真源键 `durationMilliseconds`，支持 ≥5000）？
+4. 无障碍：成功/信息是否 `aria-live="polite"`；失败是否 `role="alert"`（立即播报）？
+5. 带操作时朗读是否为「任务已删除，撤销，按钮」？
+6. 悬停/聚焦时是否**暂停计时**，移开后**继续剩余时间**（不是重新计时）？
+7. 同屏多个 Toast 是否排队/合并（不叠罗汉、不互相遮挡）？
+8. 调用方是否可把时长设到 ≥5000ms（上限与下限都有断言）？
+9. 动效是否走 `WDMotion` 包装、**禁止 `withAnimation` 包整 body**？
+10. 顶部/底部两种浮出形态是否都不遮挡关键操作（安全区/键盘避让）？
+
+**29 `WDBanner`**（设计 29）
+
+1. 最小高是否 **44**（单行）？
+2. 四变体（info / success / warning / danger）的底色（软底渐变）、文字与图标色是否按规格？
+3. 两个状态是否实现：**常驻**（直到条件解除才消失）、**可关闭**（右上角关闭键，关闭后**本次会话不再出现**）？
+4. 无障碍：信息/成功是否 `role="status"`；警示/错误是否 `role="alert"`？
+5. 错误态是否**图标与文字同时变化**（不依赖颜色传达）？
+6. 关闭键标签是否为「关闭提示」+ 按内容补充（如「关闭网络提示」）？
+7. 是否**不随列表滚动**（常驻位）且不与 `WDNavigationBar` 抢位？
+8. 多行文案时是否不裁切、图标与首行对齐？
+9. `WDBanner.visible` 的命名是否与 F 注册表一致（`is` 前缀例外，F1）？
+10. 关闭后的"不再出现"是否由**调用方持状态**（库不偷偷记忆全局状态）？
+
+**30 `WDEmptyState`**（设计 30）
+
+1. 底座是否 **56×56**？
+2. 四变体（首次空 / 搜索无结果 / 权限受限 / 加载失败）的标题与操作是否按规格？
+3. 间距是否按规格：底座与标题 `space.4`（12）、标题与说明 `space.2`（4）、说明与操作 `space.5`（16）？
+4. 是否作为**一组**朗读：标题 → 说明 → 操作？
+5. 图标底座是否标记为**装饰**？
+6. 读屏用户进入空页面时，**标题是否被首个朗读到**？
+7. 「加载失败」变体的重试是否可重复触发，且**重试期间按钮进入加载态**？
+8. 空状态本身是否**无状态**（不实现选中/按下）？
+9. 长说明 / 长按钮文案是否换行不裁切（禁 `maxLines = 1`）？
+10. 是否覆盖「无操作」「有主操作 + 次操作」两种组合的截图？
+
+**31 `WDSkeleton`**（设计 31）
+
+1. 三种形态是否齐：文本（3–4 行）、列表行（与 `WDListRow` **等高** 44 / 60 / 76）、卡片（与真实卡片**同尺寸、同圆角、同内边距**）？
+2. 文本行是否高 **11**、圆角 **6**、宽度按真实文本比例（**70% / 45%**）？
+3. 是否确认**只有一种状态**（加载中）；加载完成后**整块替换**为真实内容、**不逐块替换**？
+4. 骨架容器是否标注 `aria-busy="true"`？
+5. 整个骨架区是否**只朗读一次**「加载中」（不是每个灰块都朗读）？
+6. 加载完成后是否朗读「内容已加载」，并**把焦点保持在原位置**？
+7. 骨架出现时是否**禁用页面滚动**（内容高度尚未确定）？
+8. 微光效果是否计入效果配额：**同屏 ≤6**，第 7 个起用**静态灰块**？
+9. 减弱动效下微光是否**静态**（不是减速）？
+10. 骨架是否**不可交互**、不进入焦点序列？
+
+**M5 · 导航与表单（15 件）**
+
+**04 `WDSearchField`**（设计 04）
+
+1. 高度是否 **46**（与 `WDTextField` 一致；**同一页面里两者必须等高**）？
+2. 圆角 `radius.full`、水平内距 12、前导图标与输入区间距 8 是否按规格？
+3. 变体是否齐：标准、带取消？
+4. 五态是否齐：空态（未聚焦，容器底 `surface.card` + 占位符 `text.tertiary`）、聚焦、有值、无结果、禁用？
+5. 角色是否为 `searchbox`，朗读文本**包含搜索范围**？
+6. 清除按钮标签是否为「清除搜索内容」；取消按钮标签是否为「取消搜索」？
+7. 结果数变化是否用 **polite** 播报（阈值由调用方给，库不设阈值）？
+8. 取消按钮出现/消失时是否不引起布局跳动（输入区宽度平滑变化）？
+9. 文案（占位符 / 标签）是否全部由调用方注入（L-B）？
+10. 大字号下清除/取消按钮热区（布局盒）是否仍 ≥48？
+
+**07 `WDRadio`**（设计 07）
+
+1. 标准档是否外圆 **26** / 内圆点 **12** / 标签 `type.subheadline` **15**？（紧凑档若规格有，取值是否一致？）
+2. 未选态是否描边 `border.hairline-strong` **1.5pt** + 底 `fill.field`？
+3. 选中态是否有**明确的动效与触觉**（与 `WDCheckbox` 同族但不复制其勾选动画）？
+4. **整组是否用 `radiogroup` 包裹并给出组标签**（如「可见范围」）？
+5. 每项角色是否为 `radio`，朗读是否为「仅自己可见，已选中，单选按钮，第 1 项，共 2 项」？
+6. 键盘/遥控焦点是否在组内**单向循环**（不跳出组）？
+7. 点击已选项是否不触发变更（不重复回调）？
+8. 标签是否 2–12 汉字、名词短语、不用问句？
+9. 热区（布局盒）是否 ≥48（外圆 26，必须撑满）？
+10. 与 `WDCheckbox` 的**语义差异**是否在文档注释里写清（单选 vs 多选、不可取消 vs 可取消）？
+
+**08 `WDSlider`**（设计 08）
+
+1. 轨道高是否 **6**；手柄是否 **26**（白色 + `elevation.1` + 1pt `border.hairline` 描边）？圆角 `radius.full`、最小宽度 **120**？
+2. 变体是否齐：单值 / 带刻度 / 范围？
+3. 状态是否齐：默认（轨道 `border.hairline-strong`、填充 `gradient.mid`）、拖拽、聚焦、禁用？
+4. 角色是否为 `slider`，并提供 `value` / `min` / `max`（可选 `step`）？
+5. 朗读是否为「完成度，62%，可调整」？
+6. 松手时是否**只播报一次**（拖动过程中不连续播报）？
+7. 拖动是否只更新填充与手柄（不重组整个父级列表）？
+8. 步进（`step`）存在时，值是否**吸附到离散刻度**且朗读值同步？
+9. 范围变体是否保证**双手柄不交叉**（相等时的钳制规则明确）？
+10. `minimumScaleFactor` / `Mode.Fixed` 等禁用项是否都没用上（行盒与文字不缩放）？
+
+**09 `WDStepper`**（设计 09）
+
+1. 标准档是否容器高 **36** / 按钮宽 **40** / 字号 **14**？
+2. 容器是否 `surface.glass-strong` + `border.hairline`；按钮符号是否 `text.brand`？
+3. 变体是否齐：水平 / 紧凑？
+4. 角色是否为**可调整控件**（iOS `adjustable` / Android 等价），朗读「数量，3，可调整」？
+5. 是否支持**直接的增减手势 / 无障碍动作**（不只靠点按钮）？
+6. **高频连点是否不给触觉**（每次操作 1 次节流，超频不再震动）？
+7. 到达 min/max 时按钮是否禁用且**朗读状态变化**（不是静默失效）？
+8. 长按加速是否存在（若规格有）且速率上限明确？
+9. 数值文本是否等宽（避免数字跳动导致宽度抖动）？
+10. 热区（布局盒）是否 ≥48（容器 36，必须撑满）？
+
+**10 `WDChip`**（设计 10）
+
+1. 标准档是否高 **32** / 水平内距 **12**（带图标时左 10 右 14）/ 字号 **13** / 圆角 `radius.full`？
+2. 变体是否齐：展示 / 可选 / 可删除？
+3. 可选芯片角色是否为 `checkbox`（多选）或 `radio`（单选），朗读「已完成，已选中」？
+4. 删除键标签是否为「移除筛选：妈妈」这种**带对象名**的形式？
+5. 选中/未选的视觉差异是否**不只靠颜色**（描边或底色差异同时存在）？
+6. 可删除芯片的删除区热区（布局盒）是否 ≥48（芯片仅 32 高）？
+7. 多芯片换行规则是否按规格（行间距、与容器边距）？
+8. 长标签是否截断且**不裁切文字**（截断方式按规格）？
+9. 键盘焦点顺序是否按视觉顺序（删除键紧随其芯片）？
+10. 展示型芯片是否**不可交互、不进焦点序列**？
+
+**13 `WDAvatarStack`**（设计 13）
+
+1. 头像档位是否 `sm 28` 或 `md 32`；**重叠量是否 = 直径的 30%**（28→8，32→9）？
+2. 描边是否 2pt、颜色**取所在容器底色**（卡片或画布）？
+3. 最大显示数是否为 **4**；超出是否显示「+N」？
+4. 堆叠本身是否**无状态**？
+5. 成员变动（新增/离开）是否用 **240ms 淡入淡出**且**不重排已有位置**？
+6. 是否作为**一个**元素朗读：「家庭成员 6 人：我、妈妈、爸爸、妹妹，另有 2 人」？
+7. 是否**不逐个朗读**每个头像（否则读屏要听 6 遍）？
+8. 头像颜色是否按**成员 ID 固定**（与 `WDAvatar` 同规则，换页不换色）？
+9. 溢出数字是否随语言/字号自适应宽度（不裁切）？
+10. 与 `WDAvatar` 的档位映射是否一致（不各造一套尺寸）？
+
+**21 `WDSegmentedControl`**（设计 21）
+
+1. 容器高是否 **38**（内容 32 + 上下内边距 **3**）？
+2. 变体是否齐：玻璃底 / 实底（按规格）？
+3. 状态是否齐：未选（文字 `text.secondary`）、已选（选中态视觉 + 动效）、按下、禁用？
+4. 选中指示器的移动是否为**弹簧动画**（用 `motion.spring.*` 令牌，不是线性）？
+5. 容器角色是否为 `tablist`、每段角色为 `tab`，并标注「第 n 项，共 m 项」？
+6. 选中项是否标注 `aria-selected="true"`？
+7. 段数 2–5 时，每段最小宽度与文字截断策略是否明确（不靠缩小字号）？
+8. 键盘方向键是否可切换段（左右移动焦点与选中）？
+9. 玻璃底变体是否走 `WDGlass.resolve`（不自行选档），且计入效果配额？
+10. 无障碍热区（布局盒）是否 ≥48（容器 38）？
+
+**22 `WDPicker`**（设计 22）
+
+1. 触发入口高是否 **44**？
+2. 变体是否齐：菜单 / 滚轮 / 内联（按规格）？
+3. 默认态是否为「值为 `text.primary`、箭头 `text.tertiary`」；按下/展开态是否有定义？
+4. 触发入口角色是否为 `button`，朗读「分类，当前值：家务，展开选择」？
+5. 弹出层角色是否为 `listbox`、选项角色为 `option`，当前项标注 `aria-selected`？
+6. 弹出层是否由**调用方或库的弹层机制**承载（与 `WDBottomSheet`/`WDAlert` 不重复实现遮罩）？
+7. 长列表是否可滚动且**当前项自动滚到可见**？
+8. 无值时朗读是否明确（如「分类，未选择，展开选择」）？
+9. 选项文本超长是否截断不换行（保持行高一致）？
+10. 关闭后焦点是否归还触发入口？
+
+**23 `WDDatePicker`**（设计 23）
+
+1. 触发入口高是否 **44**？
+2. 变体是否齐：日期 / 时间 / 日期范围？
+3. 三态是否齐：未选（「设置日期」，色 `text.tertiary`）、已选、禁用？
+4. 触发行朗读是否为「截止日期，已选，2026年10月3日，按钮」？
+5. 日历网格中**每个日期**是否朗读完整信息（「10月3日，星期五，已选中」）？
+6. 日期格式是否按内容规范的本地化形态（不硬编码 `yyyy-MM-dd`）？
+7. min/max 边界外的日期是否禁用且**朗读中体现不可选**？
+8. 键盘/读屏在网格中的移动是否为**二维方向键**（周内左右、跨周上下）？
+9. 选择后是否**立即更新触发入口文本**并归还焦点？
+10. 今天/选中/禁用等状态是否**不只靠颜色**（形状或加粗同时变化）？
+
+**24 `WDFormRow`**（设计 24）
+
+1. 行最小高是否 **44**？
+2. 变体是否齐：标签在左 / 标签在上 / 带说明 / 带错误（按规格）？
+3. 默认态标签是否 `text.primary`；错误态是否 `status.danger` 且**说明与错误不同时显示**？
+4. 标签与控件是否**必须关联**（读屏先读标签再读控件）？
+5. 出错时是否读「截止日期，错误，日期不能早于今天」这种**含错误句**的形态？
+6. 标签与控件在同一行时，控件是否右对齐且**不吃掉标签的截断空间**？
+7. 必填标记是否**不只靠颜色/星号**（朗读中包含「必填」）？
+8. 长标签是否截断（不换行撑高），长控件值是否同样处理？
+9. 行内控件（Switch/Stepper/Checkbox）整行是否可点（除控件外区域也可触发）？
+10. 与 `WDTextField` 的标签语义是否一致（不出现两套"标签"概念）？
+
+**32 `WDPullToRefresh`**（设计 32）
+
+1. 触发阈值是否 **64**（下拉超过此距离松手才刷新）？
+2. 指示器直径是否 **24**、环线宽 **2**、指示器与首行间距 `space.4`（12）？
+3. 四态是否齐：空闲（指示器隐藏在列表上方）、下拉中、刷新中、完成？
+4. 变体是否齐：品牌进度 / 极简？
+5. 是否提供「刷新」的**自定义辅助操作**（读屏用户不需要会下拉）？
+6. 刷新开始与结束是否**各播报一次**：「正在刷新」/「刷新完成」？
+7. 下拉过程中的进度是否与手指位移**线性对应**（松手回弹用弹簧）？
+8. 刷新中再次下拉是否**不重复触发**（去重）；
+9. 列表内容不足以滚动时是否仍可下拉（或明确禁用）？
+10. 是否计入效果配额：**每屏 ≤1 个动画环**（与 `WDProgressRing` 冲突时按配额降级）？
+
+**33 `WDNavigationBar`**（设计 33）
+
+1. 两种模式是否齐：内联（紧凑）**44**、大标题（含展开高度），大标题是否有滚动收缩？
+2. 变体是否齐：透明底 / 玻璃底 / 不透明（深色端按 §12.1 规则 ③ 改不透明）？
+3. 状态是否齐：未滚动（透明底、无分割线）、滚动后（玻璃/分割线出现）、按下？
+4. 玻璃底是否走 `WDGlass.resolve` 并计入效果配额（同屏 ≤1 模糊面）？
+5. 导航栏是否作为 `header` 语义、**标题作为页面标题被首个朗读**？
+6. 返回按钮标签是否**包含来源页名**（「返回家庭列表」）？
+7. 大标题收缩是否用 `motion.*` 令牌（不是裸时长），且减弱动效下直接跳变？
+8. 两侧动作按钮是否 ≤2 个（更多则进溢出菜单）？
+9. 状态栏/安全区处理是否不重复占位（与页面骨架的边距不叠加）？
+10. 标题超长时是否截断并**朗读完整标题**（视觉截断 ≠ 语义截断）？
+
+**34 `WDTabBar`**（设计 34）
+
+1. 高度是否 **58**；距左右边缘 `space.5`（16）、距底部安全区 `space.3`（8）、图标 **22** 是否按规格？
+2. 变体是否齐：iOS 悬浮胶囊 / Android 全宽（按端形态；**深色端是否改不透明**）？
+3. 五态是否齐：未选（图标与标签 `text.tertiary`）、选中、按下、带角标、禁用？
+4. 容器角色是否为 `tablist`、每项 `tab`，朗读「第 n 项，共 m 项」，选中项标注 `aria-selected`？
+5. 悬浮形态是否用 `glass-strong`（浅色）并按 §12.1 规则 ③ 处理深色端？
+6. 标签是否允许 2 行（按规格）；不允许时截断策略明确？
+7. 切换是否**不重建页面状态**（各 Tab 状态保留）？
+8. 角标是否复用 `WDBadge`（不另造一套）且**不计入无障碍焦点**？
+9. 图标 `mirrorsInRTL` 在 RTL 下顺序是否整体镜像（不是单个图标翻转）？
+10. 与 `WDNavigationBar` 同屏时玻璃配额是否被正确计数（合计 ≤1 模糊面）？
+
+**35 `WDToolbar`**（设计 35）
+
+1. 容器高是否 **48**；图标按钮 **20**、按钮间距 `space.2`（4）、容器内边距 **6** 是否按规格？
+2. 三种位置是否齐：顶部 / 底部 / 键盘上方？
+3. 默认态是否 `surface.glass-strong` + `border.hairline` + `elevation.1`？
+4. 四个按钮态是否齐：默认 / 按下 / 选中 / 禁用？
+5. 每个图标按钮是否**必须有标签**（长按提示是补充不是替代）？
+6. 整条工具栏是否有**分组标签**（如「编辑工具」）？
+7. 「键盘上方」形态是否跟随键盘安全区（不遮挡输入框）？
+8. 按钮数超限时是否进溢出菜单（而不是压缩间距到不可点）？
+9. 选中态是否**不只靠颜色**（底色或描边同时变化）？
+10. 玻璃底是否计入效果配额，且与同屏其他玻璃元素一起 ≤1？
+
+**36 `WDFAB`**（设计 36）
+
+1. 三档是否齐：标准 **56×56**（圆角 `radius.fab` **19**、图标 **24**）、大 **64**、小 **40**？
+2. 三变体是否齐：圆角方（默认）/ 圆形 / 可展开？
+3. 默认态是否 `gradient.fill`（浅深两端各自取值）+ `elevation.brand`？
+4. 五态是否齐：默认 / 按下 / 滚动（收起或缩小）/ 展开 / 禁用？
+5. 标签是否写**动作**（「新建任务」）而不是图标名？
+6. 展开态是否**作为一个组朗读**，且子操作**各自可聚焦**？
+7. 展开/收起的动效是否用 `motion.spring.*`，且减弱动效下直接切换？
+8. 滚动时的收起/缩回是否**不引起列表跳动**（占位/位移补偿）？
+9. 是否避开 TabBar / 安全区（不被遮挡、不压住内容）？
+10. 与 `WDIconButton` 的分工是否清晰（FAB 是页面级主操作，不是行内动作）？
+
+**M6 · 场景组件与发布（1 件）**
+
+**37 `WDAssigneePicker`**（设计 37）
+
+1. 头像是否 **40**；头像间距 `space.4`（12）；选中外环 **2pt 描边 + 4 间隙（外径 52）**；名字与头像间距 `space.2`（4）？
+2. 四变体是否齐：单选（默认）/ 多选 / 带未指派 / 紧凑？
+3. 五态是否齐：未选 / 选中 / 按下 / **禁用成员（已离开家庭）** / 整体禁用？
+4. 整组是否用 `radiogroup`（单选）或 `group`（多选）包裹，并给出组标签「指派给」？
+5. 每项朗读是否为「妈妈，已选中，单选按钮，第 2 项，共 4 项」？
+6. **已离开家庭的成员**是否朗读中体现不可选（如「已离开，不可选」），而不是静默禁用？
+7. 「带未指派」变体是否保证「不指派」也是一个**可聚焦选项**（不是空白）？
+8. 紧凑变体是否只缩尺寸、**不缩热区**（布局盒仍 ≥48）？
+9. 头像颜色是否按成员 ID 固定（与 `WDAvatar` 同规则）？
+10. 多选时是否给出「已选 n 人」的**汇总朗读**（避免逐个听）？
+
+---
+
+## 21. 文档变更历史
 
 | 轮次 | 变更 | 说明 |
 | --- | --- | --- |
@@ -1375,11 +1976,14 @@ awk '/^# 26 · BottomSheet/,/^# 27 · /' docs/specs/02-advanced.md | grep -n '�
 | 跨端经验采纳（`t88` 期） | 固定项 **⑥ 升级为块级**：§18.1 新增 **⑦ 表格块结构自检**（连续 `|` 行成块 / 块内第 2 行必须为分隔行 / 块 ≥ 2 行） | **来源**：iOS 侧同类检查当场报出其 §17 的"表格降级"（一行落在表外）；Android 采用同款后**本轮即在 §5 冻结值表尾抓到 1 处同类缺陷**（`| 19 |` 前有孤立空行，使 19–21 行成为**无表头/无分隔行**的块）并已修复（删该空行，行序与内容不变）。**证据**：块级检查实测 异常块 = **0**（修前 = 1） |
 | 船长裁决（`t88` 期） | **§12「档位（A/B/C）」列 → 「关键路径件（是/否）」**：§12.0 列定义、§12.1 表头与 **37 行**、§12.2 依据与说明、§17 第 11 条、§3.1 停用注 同步改 | **为何去掉 A/B/C**：① 逐件分配来源 = 迁移前的跨端计划（**已退役，本仓无副本**，不可取证）；② A/B/C 是**工作量口径**的载体（A = 1.0 / B = 1.75 / C = 3.0 pd），与用户决策 #1"**不需要计算人力**、重要的是开发进程"冲突 ⇒ **不以任何形式当现行口径**；③ 替代轴 = **关键路径件**（事实性，依据 §3.2 / §9.1 / [`../AGENTS.md`](../AGENTS.md) §3.2，见 §12.2）；④ 日后若需工作量口径，**从工单数据重建**（不从旧档位反推）。**其余列（落点 / `docs/SPEC.md` 锚点 / C-15 参数名 / 验收代码 / 依赖 / 状态）保持现状** |
 | 跨端对齐（`t88` 期） | **关键路径件统一为 12 件**：§12.0 判定规则改为"两端可取证点名件的**并集**"、§12.1 表下补判定式、count 改 **`是` = 12 / `否` = 25**、37 行中 M4 三件（`WDAlert`/`WDActionSheet`/`WDToast`）由 `否` → `是` | **差异来源（双向）**：Android 判 9（依据本仓 §3.2 / §9.1 / [`../AGENTS.md`](../AGENTS.md) §3.2 的点名）；iOS 判 11（依据其原 `(C)` 标记——iOS 多 M4 三件）；**并集 = 12 件**（Android 独有贡献 = `WDAssigneePicker`，依据 §9.1 的 M6 串行链点名）。**为何用并集**：避免任一端丢失信息；**跨端同答案**优先于单端"保守取否"。**与 iOS 核对（本日）：`是` 集合 12/12 逐件一致**（iOS 侧同批落 12/25、同款判定式；其对 M4 的依据 = 其 §3 批次表的 `(C)` 标记，本端对 M4 的依据 = [`../AGENTS.md`](../AGENTS.md) §3.2 点名 `WDBottomSheet` + 本次并入三件）。其余列（落点 / `docs/SPEC.md` 锚点 / C-15 名 / 验收代码 / 依赖 / 状态）保持现状 |
-| **`t86`** | **新增 §0 目录**（可跳转锚点 + 条数差 = 0 自检）、**§12 逐组件索引（37 行施工总表）**、**§13 单组件作业流程 SOP（8 步）**、**§14 验收手册（逐批命令 + 处置 + 检查清单）**、**§15 开发者指南（环境/规范/提交/排障/升级）**、**§16 术语表与已退役代号解析**、**§17 关键决策摘要**、**§18 变更历史** | **是增补不是重写**：§1–§11 全部判据、冻结值、批次表、回写项、待给值、V1–V18 **一字未动**；本轮只追加，未改任何口径 |
-| **设计向详补（船长 · 本轮）** | 新增 **§19 设计文档与设计图查阅指南**、**§20 逐组件设计溯源表**（37 件）、**§21 从设计规格到实现与验收**（12 节映射 / 画廊核验六步 / 六态截图） | 同 iOS 侧：设计编号 01–37 无缺号；画廊用**检索词 + 实测命中数**定位；本端额外强调 `apiDump` 同提交与 `apiCheck` 转绿、公开面不得出现 m3 类型（G9） |
+| **`t86`** | **新增 §0 目录**（可跳转锚点 + 条数差 = 0 自检）、**§12 逐组件索引（37 行施工总表）**、**§13 单组件作业流程 SOP（8 步）**、**§14 验收手册（逐批命令 + 处置 + 检查清单）**、**§15 开发者指南（环境/规范/提交/排障/升级）**、**§16 术语表与已退役代号解析**、**§17 关键决策摘要**、**§21 变更历史** | **是增补不是重写**：§1–§11 全部判据、冻结值、批次表、回写项、待给值、V1–V18 **一字未动**；本轮只追加，未改任何口径 |
+| **设计向详补（船长 · 本轮）** | 新增 **§18 设计文档与设计图查阅指南**、**§19 逐组件设计溯源表**（37 件）、**§20 从设计规格到实现与验收**（12 节映射 / 画廊核验六步 / 六态截图） | 同 iOS 侧：设计编号 01–37 无缺号；画廊用**检索词 + 实测命中数**定位；本端额外强调 `apiDump` 同提交与 `apiCheck` 转绿、公开面不得出现 m3 类型（G9） |
 | **目录锚点修正 + 重建（同批）** | ① 目录按**标题为准**重建：**96 条 = 96 个标题**（新增 15 条新章节条目），顺序一致；② **纠正 23 条锚点的"折叠连续连字符"缺陷**（原写法把两空格折成一个 `-`，GitHub 不折叠 ⇒ 这些锚点点不到标题），改为 GitHub 规则（如 `#21-m0--规范冻结本仓部分m0-3m0-10`） | 证据：iOS 侧同类缺陷由 `docs/DEV-PLAN-REVIEW.md` 的 R2-01 登记（14 条），本端同批自查出 **23 条**；修正后自检：缺失 = 0、多余 = 0、顺序一致 = True；表格块 46 / 异常 0 |
+| **视觉规格速查（同批）** | 新增 **§19.4 视觉规格速查（37 件）**：逐件给「尺寸要点 · 变体 · 状态」，数据**从设计规格第 3/4/5 节实测抽取**；目录随之重建为 **97 = 97** | 抽样复核与 `../wisdomdesign/docs/specs/` 原文逐值一致；表格块 47 / 异常 0 |
+| **速查表按批次重排 + 补两列（同批）** | §19.4 改为**按批次 5 张小表** + **关键令牌**列 + **对比度速查**表（12 件有明确值，其余适用全局门槛） | 脚本抽取；表格块 52 / 异常 0；目录 97 = 97 |
+| **M3–M6 实现前自检十问（本轮）** | 新增 **§20.6**：M3/M4/M5/M6 共 **26 件 × 10 问 = 260 条**，与 §20.5 的 M2 十问同法（含 Android 侧特有项：`apiDump` 同提交、`@Immutable/@Stable`、热区 `wdTouchTarget`、`fontScale` 2.0、`:demo` 等） | 脚本抽取；目录重建为 **99 = 99**；表格块 52 / 异常 0 |
 
-### 18.1 本轮（`t86`）自检（可复制）
+### 21.1 本轮（`t86`）自检（可复制）
 
 ```bash
 # ① 目录 = 标题（条数差 = 0，见 §0 的自检命令）

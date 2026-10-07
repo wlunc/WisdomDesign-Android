@@ -1,5 +1,12 @@
 package io.github.wlunc.wisdom.foundation
 
+import io.github.wlunc.wisdom.foundation.generated.WDDerived
+import io.github.wlunc.wisdom.foundation.generated.WDPalette
+import io.github.wlunc.wisdom.foundation.generated.WDRadius
+import io.github.wlunc.wisdom.foundation.generated.WDSpacing
+import io.github.wlunc.wisdom.foundation.generated.WDType
+import io.github.wlunc.wisdom.foundation.generated.wdDarkColors
+import io.github.wlunc.wisdom.foundation.generated.wdLightColors
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
