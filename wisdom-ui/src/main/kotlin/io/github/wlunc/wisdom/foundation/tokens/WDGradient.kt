@@ -1,4 +1,4 @@
-package io.github.wlunc.wisdom.foundation
+package io.github.wlunc.wisdom.foundation.tokens
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.LinearGradientShader
 import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
+import io.github.wlunc.wisdom.foundation.generated.WDGradientSpec
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin

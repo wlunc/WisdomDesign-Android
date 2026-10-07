@@ -1,4 +1,4 @@
-package io.github.wlunc.wisdom.foundation
+package io.github.wlunc.wisdom.foundation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -10,6 +10,13 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
+import io.github.wlunc.wisdom.foundation.generated.WDColors
+import io.github.wlunc.wisdom.foundation.generated.WDGradients
+import io.github.wlunc.wisdom.foundation.generated.WDTextStyle
+import io.github.wlunc.wisdom.foundation.generated.wdDarkColors
+import io.github.wlunc.wisdom.foundation.generated.wdDarkGradients
+import io.github.wlunc.wisdom.foundation.generated.wdLightColors
+import io.github.wlunc.wisdom.foundation.generated.wdLightGradients
 
 /** 当前语义色。组件一律通过 WDTheme.colors 取值，不直接引用生成常量。 */
 public val LocalWDColors: ProvidableCompositionLocal<WDColors> =

@@ -2,7 +2,7 @@
 // 修改请编辑 wisdomdesign/tokens/wisdom.tokens.json 后重新生成。
 
 
-package io.github.wlunc.wisdom.foundation
+package io.github.wlunc.wisdom.foundation.generated
 
 import androidx.compose.animation.core.SpringSpec
 import androidx.compose.animation.core.spring
