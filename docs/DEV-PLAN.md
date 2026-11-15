@@ -464,7 +464,7 @@ awk '/^\|/{if(!b){k++;n=0;f=NR} b=1;n++; if(n==2 && $0 !~ /^\|[-: |]*-[-: |]*\|[
 | 18 | 本端登记的差异（F 系列节选） | `F41` `WDDatePicker` 用平台对话框；`F42` 行盒容差 1px（iOS 0.5pt）；`F43` 阴影近似映射；`F45` 禁用态 40% 不透明度；`F47` `WDGlassLevel` 额外输入；**`F51` 行距差异** |
 | 19 | **阴影出口** | `WDElevation`（`level0/1/2/3/brand`）→ `Modifier.shadow` 映射 **5 行**（**近似映射**，登记 **`F43`**）；**禁止**为多层阴影引入离屏层 |
 | 20 | **组件命名** | `WDBottomSheet` / `WDBottomSheetState`（+ `saver(...)`）/ `rememberWDBottomSheetState`；**`WDSheet` 这个名字不存在** |
-| 21 | **三枚举（M2/M4 首批要用）** | `WDCardStyle{Elevated, Outlined, Glass}`（M2 `WDCard`，默认 `Elevated`）；`WDToastVariant{Neutral, Success, Warning, Danger}`（M4）；`WDBannerVariant{Info, Warning, Danger}`（M4）；**契约比较用归一化后的规范名**（Kotlin `UpperCamel` ↔ Swift `lowerCamel` = 已登记 DIR-1） |
+| 21 | **三枚举（M2/M4 首批要用）** | `WDCardStyle{Elevated, Outlined, Glass, Sunken}`（M2 `WDCard`，默认 `Elevated`）；`WDToastVariant{Neutral, Success, Warning, Danger}`（M4）；`WDBannerVariant{Info, Warning, Danger}`（M4）；**契约比较用归一化后的规范名**（Kotlin `UpperCamel` ↔ Swift `lowerCamel` = 已登记 DIR-1） |
 
 **契约纪律**：名字冲突看 C-15 名表；**进程 / 冻结值口径看本文件 §2 / §3** 与 [`../AGENTS.md`](../AGENTS.md) §3/§4；**实现细节以本文件 §5 + [`../AGENTS.md`](../AGENTS.md) §6 + 契约 `contracts/<component>.yaml`（`params` / `slots` / `default`）为准**。**时点**：`contracts/<component>.yaml` 属 **M0-5 才落库**（今天不存在）；M0-5 之前，名字与默认值以本文件 §5 + [`../AGENTS.md`](../AGENTS.md) §6 为准。
 

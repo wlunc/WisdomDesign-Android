@@ -1313,28 +1313,28 @@ LazyColumn { items(tasks, key = { it.id }) { task ->
 | # | 组件 | 受控值（Android 名） | **契约名（C-15 §1）** | 关键默认（Android） | 枚举 case（Android） | U/F（**改名后如实**） | 决定人 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 01 | `WDButton` | `loading` | **`loading`** | `variant = Filled`、`size = Md`、`enabled = true`、`loading = false`、`loadingLabel = null` | `WDButtonVariant{Filled, Tonal, Glass, Outline, Plain, Destructive}`、`WDButtonSize{Sm, Md, Lg}` | U（名词一致；`is` 前缀 = **F1**） | D |
-| 02 | `WDIconButton` | `loading` | **`loading`** | `variant = Plain`、`enabled = true` | 复用 `WDButtonVariant`（子集：`Plain/Filled/Glass`） | U（同上） | D |
+| 02 | `WDIconButton` | `loading` | **`loading`** | `variant = Plain`、`enabled = true` | 复用 `WDButtonVariant`（子集：`Plain/Filled/Tonal/Glass/Outline`；`Destructive` 不适用于图标按钮） | U（同上） | D |
 | 03 | `WDTextField` | **`text`**（← `value`） | **`text`** | `variant = Inset`、`label` **必填**、`readOnly = false`、`singleLine = false`、`maxLines = "MAX_VALUE unless singleLine"`、字段盒 `46.dp` | `WDTextFieldVariant{Inset, Outline, Glass}` | U（名词一致；**能力集差异 = F23**） | D |
 | 04 | `WDSearchField` | **`text`**（← `value`） | **`text`** | `enabled = true` | — | U（名词一致） | D |
-| 05 | `WDSwitch` | **`on`**（← `checked`） | **`on`** | `enabled = true` | — | U（`is` 前缀 = **F1**；设计口径"布尔开关"） | D |
+| 05 | `WDSwitch` | **`on`**（← `checked`） | **`on`** | `enabled = true`、`description = null`、`size = Standard`（既有重载等价） | `WDSwitchSize{Standard, Compact}` | U（`is` 前缀 = **F1**；设计口径"布尔开关"） | D |
 | 06 | `WDCheckbox` | `checked` | **`checked`** | `enabled = true` | — | U（`is` 前缀 = **F1**；**iOS 侧改 `isOn→isChecked`**） | D |
 | 07 | `WDRadio` | **`selection`**（← `selected`） | **`selection`** | `enabled = true` | — | U（名词一致） | D |
 | 08 | `WDSlider` | `value` | **`value`** | `steps = 0`、`enabled = true` | —（**不进 `Role`**；`progressBarRangeInfo` + `setProgress`，LR-16） | U | D |
 | 09 | `WDStepper` | `value` | **`value`** | `enabled = true` | — | U | D |
 | 10 | `WDChip` | `selected` | **`selected`** | `enabled = true` | — | U（`is` 前缀 = **F1**） | D |
-| 11 | `WDBadge` | — | — | `max = 99`；`count = 0` 隐藏 | — | U（无受控值） | D |
-| 12 | `WDAvatar` | — | — | 直径锁死（`WDSize.avatarMd`） | — | U（无受控值） | D |
+| 11 | `WDBadge` | — | — | `max = 99`；`count = 0` 隐藏；`variant = Shared`（仅 `label + variant` 重载可传，既有重载等价 `Shared`） | `WDBadgeVariant{Shared, Schedule, Pending, Success, Warning, Danger}` | U（无受控值；B1 六变体只增不改） | D |
+| 12 | `WDAvatar` | — | — | `size = Md`（直径 `WDSize.avatarMd` = 32；五档映射 `avatarXs/Sm/Md/Lg/Xl` = 20/28/32/40/56；`avatarXxl`（72）不在契约内）、`isOnline = false`、`isDisabled = false` | `WDAvatarSize{Xs, Sm, Md, Lg, Xl}` | U（无受控值；B2 五档只增不改；直径令牌两端同名（DIR-1 大小写）） | D |
 | 13 | `WDAvatarStack` | — | — | `max = 4`、`count = 0` 隐藏 | — | U（无受控值） | D |
-| 14 | `WDDivider` | — | — | 装饰：`clearAndSetSemantics {}`（不进树） | — | U（无受控值） | D |
+| 14 | `WDDivider` | — | — | `style = Full`；装饰语义不变（`clearAndSetSemantics {}`，不进树） | `WDDividerStyle{Full, Inset}` | U（无受控值；B3 新增类型 + 重载 = 兼容） | D |
 | 15 | `WDProgressBar` | **`value`**（← `progress`） | **`value`** | `value = null`（`null` = 不确定态） | — | U（名词一致；`null` 语义两端一致） | D |
 | 16 | `WDProgressRing` | **`value`**（← `progress`） | **`value`** | `value = null`、环径锁死 | — | U（同上） | D |
-| 17 | `WDCard` | — | — | `style = Elevated` | `WDCardStyle{Elevated, Outlined, Glass}` | U（无受控值） | D |
+| 17 | `WDCard` | — | — | `style = Elevated` | `WDCardStyle{Elevated, Outlined, Glass, Sunken}` | U（无受控值） | D |
 | 18 | `WDListRow` | `selected` | **`selected`** | `showsSeparator = true`（**LR-24 已从 `divider = false` 改齐**）、`enabled = true`、`density = null`（= 跟随 `LocalWDLayout`）、行高 `max(密度档下限, 槽位派生)` | — | U（`is` 前缀 = **F1**；行高公式 U；`density` 注入 = **F44**） | D + AL |
 | 19 | `WDListSection` | **`selection`**（← `selected`） | **`selection`** | 末行无分隔 | — | U（名词一致） | D |
 | 20 | `WDIcon` | — | — | `tint = Color.Unspecified`（→ `LocalWDContentColor`）、`size = WDSize.iconMd`；`contentDescription = null` = 装饰 | — | U（无受控值；注入机制 = **F14**） | AL |
 | 21 | `WDSegmentedControl` | `selection` | **`selection`** | `enabled = true` | — | U | D |
 | 22 | `WDPicker` | `selection` | **`selection`** | 空数组断言（debug） | — | U（形态 = **F48**） | D |
-| 23 | `WDDatePicker` | **`date`**（← `value`） | **`date`** | `enabled = true`、`title = null` | — | U（名词一致；**载体 = F41**） | D + AL |
+| 23 | `WDDatePicker` | **`date`**（← `value`） | **`date`** | `enabled = true`、`title = null`；B6 增量【待 android-lead 确认，未冻结/未实现】：`range = null`（与 `date` 互斥）、`showsClearButton = false`、`clearAccessibilityLabel = null` | — | U（名词一致；**载体 = F41**；B6 范围/清除的 Android 形态 = 待裁决） | D + AL |
 | 24 | `WDFormRow` | — | — | 标签关联（默认上提点击目标） | — | U（无受控值） | D |
 | 25 | `WDAlert` | **`presented`**（← `visible`） | **`presented`** | `destructive = false` | — | U（`is` 前缀 = **F1**；形态 = **F21**） | D |
 | 26 | `WDBottomSheet` | **`presented`**（← `visible`） | **`presented`** | `detents = WDBottomSheetDetents.All`、`initialDetent = WDBottomSheetDetent.Half`（在 `rememberWDBottomSheetState`）、`dragHandle = true`、`glass = Regular` | `WDBottomSheetDetent{Half, Large}`；`WDBottomSheetDetents{All, Fixed}` | U（`is` 前缀 = **F1**；形态 = **F21/F38**） | D |
