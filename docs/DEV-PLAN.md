@@ -228,7 +228,7 @@ test "$(grep -cE '^#{2,3} ' docs/DEV-PLAN.md)" -eq "$(grep -cE '^ *- \[[^]]+\]\(
 
 ### 2.3 M2 — 基础批（11 件）
 
-**本端任务**：⓪ 批前签名冻结（11 件）→ 实现 `WDButton`（含 `role`/`onClickLabel`）、`WDIconButton`、`WDTextField`（自研路线，见 §8-V7）、`WDSwitch`、`WDCheckbox`、`WDBadge`、`WDAvatar`、`WDDivider`、`WDCard`、`WDListRow`、`WDIcon`。
+**本端任务**：**图标产物**（消费 `contracts/icons.json` → `WDIconName.kt`：44 条**两端同名 id** + Material 列；`LocalWDIcons` 注入面；缺图保留占位尺寸；镜像以 `ImageVector.autoMirror` 为准、**不得**再 `scale(-1f)`。设计与跨仓计划见 `iOS/docs/ICON-PIPELINE.md`）→ ⓪ 批前签名冻结（11 件）→ 实现 `WDButton`（含 `role`/`onClickLabel`）、`WDIconButton`、`WDTextField`（自研路线，见 §8-V7）、`WDSwitch`、`WDCheckbox`、`WDBadge`、`WDAvatar`、`WDDivider`、`WDCard`、`WDListRow`、`WDIcon`。
 **入口判据**：I-1（M1 出口）+ **I-2（批前签名冻结）** + I-3（C-15 / U3 / F 注册表 / 默认值表已落库）+ I-4（PR 门禁绿）。
 **出口判据（6 条）**：① 批前冻结（`params[].name` 与 C-15 逐行一致、枚举 `allCases` 归一化绿）；② `wisdomGate` 绿；③ nightly：六态截图 + 无障碍断言（`assertIsButton` / `assertIsNotEnabled` / 热区 / 两态宽度 / `saver` 三条）；④ B1/B2/A3 数字进报告（只报）；⑤ 契约用例名 + 图标语义名对齐；⑥ 冒烟退役。
 **门禁强度**：PR 必过 + nightly **连续 3 日绿**（第 3 日观察通过后才可举行批出口评审）。
@@ -450,7 +450,7 @@ awk '/^\|/{if(!b){k++;n=0;f=NR} b=1;n++; if(n==2 && $0 !~ /^\|[-: |]*-[-: |]*\|[
 | 4 | **U12 色槽** | **32 槽位**（含新增 `text.disabled`），浅深成对；生成物 32 个 `public val`；槽位计数断言 == 32 |
 | 5 | **换肤（层一）** | `schemes: {light, dark, …}` + 生成器 **`--schemes`**；入口 = `WDTheme(colors = …)`；**不支持**运行时任意令牌 / 服务端下发 / **逐槽位任意覆盖**；切换 = 换已生成 scheme、**不重启进程**、**不进高频路径**（值变化 = 整树重组） |
 | 6 | **弹簧 canonical** | 真源字段 = `response` + `dampingRatio`；`stiffness = μ·(2π/response)²`，**μ = 1.0** → gentle `246.74` / snappy `503.65` / bouncy `223.72`；**禁用 `massFactor`** |
-| 7 | **图标** | 契约只统一 **44 条语义名 + `mirrorsInRTL`**；Android **调用方注入 `ImageVector`**（默认空集）；**库内零图标资源**；镜像以 `autoMirror` 为准（**不要**再 `scale(-1f)` 二次镜像） |
+| 7 | **图标** | 契约只统一 **44 条语义名 + `mirrorsInRTL`**；Android **调用方注入 `ImageVector`**（默认空集）；**库内零图标资源**；镜像以 `autoMirror` 为准（**不要**再 `scale(-1f)` 二次镜像）。**名单与两端符号已齐**（设计仓 `08-icons.md` §4 = 44 条；iOS 侧实测 44/44 SF Symbol 存在）；**缺契约收录 + 生成器产物**（见 §7-V18② 与 `iOS/docs/ICON-PIPELINE.md`） |
 | 8 | **触控双键** | `touch-target-min-ios = 44` / `touch-target-min-android = 48`；每端只生成本端常量；**一次性改名、不留过渡键**；不得用作视觉尺寸 |
 | 9 | **minSdk** | **24**（保持）；玻璃在多数设备走"默认降级"路径 |
 | 10 | **m3 收缩** | `material3 → implementation`（BOM 留在 `api`）、`tooling-preview → debugImplementation`；**G9：公开签名不得出现 m3 类型**；**全库 m3 import 计数 == 1**（只能 `foundation/theme/WDMaterialScheme.kt`） |
@@ -585,7 +585,7 @@ awk '/^\|/{if(!b){k++;n=0;f=NR} b=1;n++; if(n==2 && $0 !~ /^\|[-: |]*-[-: |]*\|[
 | V15 | `WDBottomSheet` 展开态下 back 的语义（先收档还是直接关闭） | android-dev | M4 前 |
 | V16 | 阴影近似映射 + `press-overlay-alpha` 的**观感** | 设计 + android-dev | M2 / M4 视觉评审关 |
 | V17 | M0 出口⑨ 的两个数字能否在 M1 出口按期给出（依赖 `:demo`） | android-dev | 不阻塞 |
-| V18 | **C-15 的 14 个受控值名尚未落 `contracts/<component>.yaml: params[].name`** | android-dev + 架构师 | **阻塞 M2 批前签名冻结**（M0-5 落库） |
+| V18 | **契约落库未完成**（M0-5），两条：① **C-15 的 14 个受控值名**尚未落 `contracts/<component>.yaml: params[].name`；② **图标产物**：`contracts/icons.json` 与生成器产出的 `WDIconName.kt` 均未落库 —— 44 条语义名目前只在设计仓 `docs/08-icons.md` §4（人读 markdown）。**注**：名单与两端符号**已齐**（iOS 侧实测 44/44 SF Symbol 存在，见 `iOS/docs/ICON-PIPELINE.md`），缺的是契约收录与生成器产物，**不是设计决策** | android-dev + 架构师 | **阻塞 M2 批前签名冻结**与 M2 五件的图标面（`WDButton`/`WDIconButton`/`WDListRow`/`WDAvatar`/`WDIcon`） |
 
 **三条明令**：① 上表任一在**实测回填前**，出口报告 / `README` / `CHANGELOG` / PR 描述**一律记"未验证"**并给归属与时点；**不得**写"已达标 / 已通过 / 已验证"。② **`:benchmark` 的首个结果 JSON 尚不存在**——不得写"已有基准数据"。③ 门禁**耗时**（PR ≤10 min / ≤5 min warm）是**目标值不是实测值**。
 
@@ -611,6 +611,7 @@ M0-1 令牌冻结 ─→ M0-2 生成器 ─→ M0-3/M0-4 生成物 + apiDump（a
 - **跨端必须一致（U 系列，换端后消费方可见）**：U5 行盒公式、U6 状态优先级全序串、U8 图标语义名 + 触控双键、U10 玻璃输入/输出集合、U12 32 槽位、U3 槽位词表、C-15 受控值名。
 - **各端自由但必须登记（F 系列，本端节选）**：`F41` 日期选择载体、`F42` 行盒容差（1px vs 0.5pt）、`F43` 阴影近似映射、`F45` 禁用态 40%、`F47` 玻璃档位额外输入、**`F51` 行距差异（Android 48 / iOS 44）**。
 - **本端对上游的依赖**：设计仓令牌与生成器（M0-1/M0-2）、契约六文件 + C-15 名表（M0-5）、§7 的 16 项设计给值（9 项阻塞 M0-1）。
+- **新增：图标管道（V18②）**——契约层需要与令牌层**同构**的一条产物链：`contracts/icons.json`（44 条：id / 语义 / iOS / Android / `mirrorsInRTL`）→ 生成器产出 `WDIconName.{swift,kt}` → **独立的 `dist/contracts.manifest.json`**（不复用令牌 manifest：它的 `version/sha12` 语义 = 令牌版本，混用会让溯源链假成立）。设计稿与 44 条对照表见 `iOS/docs/ICON-PIPELINE.md`。
 
 ### 9.3 时长估算【参考信息】
 

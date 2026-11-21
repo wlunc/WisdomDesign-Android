@@ -1,5 +1,7 @@
 .DS_Store
 .gradle/
+.gradle-home/
+.gradle-t6-home/
 build/
 local.properties
 .idea/

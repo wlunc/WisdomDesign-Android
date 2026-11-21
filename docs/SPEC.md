@@ -1317,7 +1317,7 @@ LazyColumn { items(tasks, key = { it.id }) { task ->
 | 03 | `WDTextField` | **`text`**（← `value`） | **`text`** | `variant = Inset`、`label` **必填**、`readOnly = false`、`singleLine = false`、`maxLines = "MAX_VALUE unless singleLine"`、字段盒 `46.dp` | `WDTextFieldVariant{Inset, Outline, Glass}` | U（名词一致；**能力集差异 = F23**） | D |
 | 04 | `WDSearchField` | **`text`**（← `value`） | **`text`** | `enabled = true` | — | U（名词一致） | D |
 | 05 | `WDSwitch` | **`on`**（← `checked`） | **`on`** | `enabled = true`、`description = null`、`size = Standard`（既有重载等价） | `WDSwitchSize{Standard, Compact}` | U（`is` 前缀 = **F1**；设计口径"布尔开关"） | D |
-| 06 | `WDCheckbox` | `checked` | **`checked`** | `enabled = true` | — | U（`is` 前缀 = **F1**；**iOS 侧改 `isOn→isChecked`**） | D |
+| 06 | `WDCheckbox` | `checked` | **`checked`** | `enabled = true`、`indeterminate = false`（半选显示态；**新增默认参数 = 二进制不兼容**，走重载/major，§1.5.4-F） | — | U（`is` 前缀 = **F1**；**iOS 侧改 `isOn→isChecked`**；半选 = 显示态） | D |
 | 07 | `WDRadio` | **`selection`**（← `selected`） | **`selection`** | `enabled = true` | — | U（名词一致） | D |
 | 08 | `WDSlider` | `value` | **`value`** | `steps = 0`、`enabled = true` | —（**不进 `Role`**；`progressBarRangeInfo` + `setProgress`，LR-16） | U | D |
 | 09 | `WDStepper` | `value` | **`value`** | `enabled = true` | — | U | D |
@@ -1333,7 +1333,7 @@ LazyColumn { items(tasks, key = { it.id }) { task ->
 | 19 | `WDListSection` | **`selection`**（← `selected`） | **`selection`** | 末行无分隔 | — | U（名词一致） | D |
 | 20 | `WDIcon` | — | — | `tint = Color.Unspecified`（→ `LocalWDContentColor`）、`size = WDSize.iconMd`；`contentDescription = null` = 装饰 | — | U（无受控值；注入机制 = **F14**） | AL |
 | 21 | `WDSegmentedControl` | `selection` | **`selection`** | `enabled = true` | — | U | D |
-| 22 | `WDPicker` | `selection` | **`selection`** | 空数组断言（debug） | — | U（形态 = **F48**） | D |
+| 22 | `WDPicker` | `selection` | **`selection`** | 空数组断言（debug） | `WDPickerStyle{Menu, Wheel, Inline}`（F48：载体自由，case 名统一） | U（形态 = **F48**；`.inline` 2026-11-14 补） | D |
 | 23 | `WDDatePicker` | **`date`**（← `value`） | **`date`** | `enabled = true`、`title = null`；B6 增量【待 android-lead 确认，未冻结/未实现】：`range = null`（与 `date` 互斥）、`showsClearButton = false`、`clearAccessibilityLabel = null` | — | U（名词一致；**载体 = F41**；B6 范围/清除的 Android 形态 = 待裁决） | D + AL |
 | 24 | `WDFormRow` | — | — | 标签关联（默认上提点击目标） | — | U（无受控值） | D |
 | 25 | `WDAlert` | **`presented`**（← `visible`） | **`presented`** | `destructive = false` | — | U（`is` 前缀 = **F1**；形态 = **F21**） | D |
